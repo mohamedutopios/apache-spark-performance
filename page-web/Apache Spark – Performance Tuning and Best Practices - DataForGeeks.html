@@ -1,0 +1,1295 @@
+<!DOCTYPE html>
+<html dir="ltr" lang="en-US" prefix="og: https://ogp.me/ns#"><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+	<meta charset="UTF-8">
+	
+		<!-- All in One SEO 4.5.8 - aioseo.com -->
+		<meta name="description" content="Note: This article is a compilation effort of multiple performance tuning methodologies in Apache Spark. Text/Images in following article has been referred from various interesting articles and book, details of which are captured under &quot;References&quot;. Tweak Configurations Viewing and Setting Apache Spark Configurations 4 ways of doing it : Way-1:Using $SPARK_HOME directory (Configuration changes in">
+		<meta name="robots" content="max-image-preview:large">
+		<link rel="canonical" href="https://dataforgeeks.com/apache-spark-performance-tuning-and-best-practices/2305/">
+		<meta name="generator" content="All in One SEO (AIOSEO) 4.5.8">
+		<meta property="og:locale" content="en_US">
+		<meta property="og:site_name" content="DataForGeeks - for Data Enthusiasts">
+		<meta property="og:type" content="article">
+		<meta property="og:title" content="Apache Spark – Performance Tuning and Best Practices - DataForGeeks">
+		<meta property="og:description" content="Note: This article is a compilation effort of multiple performance tuning methodologies in Apache Spark. Text/Images in following article has been referred from various interesting articles and book, details of which are captured under &quot;References&quot;. Tweak Configurations Viewing and Setting Apache Spark Configurations 4 ways of doing it : Way-1:Using $SPARK_HOME directory (Configuration changes in">
+		<meta property="og:url" content="https://dataforgeeks.com/apache-spark-performance-tuning-and-best-practices/2305/">
+		<meta property="article:published_time" content="2022-05-04T12:33:18+00:00">
+		<meta property="article:modified_time" content="2022-05-16T21:19:34+00:00">
+		<meta name="twitter:card" content="summary_large_image">
+		<meta name="twitter:title" content="Apache Spark – Performance Tuning and Best Practices - DataForGeeks">
+		<meta name="twitter:description" content="Note: This article is a compilation effort of multiple performance tuning methodologies in Apache Spark. Text/Images in following article has been referred from various interesting articles and book, details of which are captured under &quot;References&quot;. Tweak Configurations Viewing and Setting Apache Spark Configurations 4 ways of doing it : Way-1:Using $SPARK_HOME directory (Configuration changes in">
+		<script src="Apache%20Spark%20%E2%80%93%20Performance%20Tuning%20and%20Best%20Practices%20-%20DataForGeeks_files/f_002.txt"></script><script src="Apache%20Spark%20%E2%80%93%20Performance%20Tuning%20and%20Best%20Practices%20-%20DataForGeeks_files/f.txt"></script><script type="text/javascript" async="" src="Apache%20Spark%20%E2%80%93%20Performance%20Tuning%20and%20Best%20Practices%20-%20DataForGeeks_files/library.js"></script><script type="application/ld+json" class="aioseo-schema">
+			{"@context":"https:\/\/schema.org","@graph":[{"@type":"BlogPosting","@id":"https:\/\/dataforgeeks.com\/apache-spark-performance-tuning-and-best-practices\/2305\/#blogposting","name":"Apache Spark \u2013 Performance Tuning and Best Practices - DataForGeeks","headline":"Apache Spark &#8211; Performance Tuning and Best Practices","author":{"@id":"https:\/\/dataforgeeks.com\/author\/nikhilaggarwal\/#author"},"publisher":{"@id":"https:\/\/dataforgeeks.com\/#organization"},"image":{"@type":"ImageObject","url":"https:\/\/dataforgeeks.com\/wp-content\/uploads\/2022\/05\/spark-1-tuning_spark_image.jpg","@id":"https:\/\/dataforgeeks.com\/apache-spark-performance-tuning-and-best-practices\/2305\/#articleImage","width":800,"height":405},"datePublished":"2022-05-04T12:33:18+00:00","dateModified":"2022-05-16T21:19:34+00:00","inLanguage":"en-US","commentCount":1,"mainEntityOfPage":{"@id":"https:\/\/dataforgeeks.com\/apache-spark-performance-tuning-and-best-practices\/2305\/#webpage"},"isPartOf":{"@id":"https:\/\/dataforgeeks.com\/apache-spark-performance-tuning-and-best-practices\/2305\/#webpage"},"articleSection":"General, apache spark, big data, bigdata, optimisation, partition, spark, tuning"},{"@type":"BreadcrumbList","@id":"https:\/\/dataforgeeks.com\/apache-spark-performance-tuning-and-best-practices\/2305\/#breadcrumblist","itemListElement":[{"@type":"ListItem","@id":"https:\/\/dataforgeeks.com\/#listItem","position":1,"name":"Home","item":"https:\/\/dataforgeeks.com\/","nextItem":"https:\/\/dataforgeeks.com\/apache-spark-performance-tuning-and-best-practices\/#listItem"},{"@type":"ListItem","@id":"https:\/\/dataforgeeks.com\/apache-spark-performance-tuning-and-best-practices\/#listItem","position":2,"name":"Apache Spark - Performance Tuning and Best Practices","previousItem":"https:\/\/dataforgeeks.com\/#listItem"}]},{"@type":"Organization","@id":"https:\/\/dataforgeeks.com\/#organization","name":"DataForGeeks","url":"https:\/\/dataforgeeks.com\/"},{"@type":"Person","@id":"https:\/\/dataforgeeks.com\/author\/nikhilaggarwal\/#author","url":"https:\/\/dataforgeeks.com\/author\/nikhilaggarwal\/","name":"Nikhil Aggarwal","image":{"@type":"ImageObject","@id":"https:\/\/dataforgeeks.com\/apache-spark-performance-tuning-and-best-practices\/2305\/#authorImage","url":"https:\/\/secure.gravatar.com\/avatar\/016ca5b64577f70665b090b10f01e648?s=96&d=mm&r=g","width":96,"height":96,"caption":"Nikhil Aggarwal"}},{"@type":"WebPage","@id":"https:\/\/dataforgeeks.com\/apache-spark-performance-tuning-and-best-practices\/2305\/#webpage","url":"https:\/\/dataforgeeks.com\/apache-spark-performance-tuning-and-best-practices\/2305\/","name":"Apache Spark \u2013 Performance Tuning and Best Practices - DataForGeeks","description":"Note: This article is a compilation effort of multiple performance tuning methodologies in Apache Spark. Text\/Images in following article has been referred from various interesting articles and book, details of which are captured under \"References\". Tweak Configurations Viewing and Setting Apache Spark Configurations 4 ways of doing it : Way-1:Using $SPARK_HOME directory (Configuration changes in","inLanguage":"en-US","isPartOf":{"@id":"https:\/\/dataforgeeks.com\/#website"},"breadcrumb":{"@id":"https:\/\/dataforgeeks.com\/apache-spark-performance-tuning-and-best-practices\/2305\/#breadcrumblist"},"author":{"@id":"https:\/\/dataforgeeks.com\/author\/nikhilaggarwal\/#author"},"creator":{"@id":"https:\/\/dataforgeeks.com\/author\/nikhilaggarwal\/#author"},"datePublished":"2022-05-04T12:33:18+00:00","dateModified":"2022-05-16T21:19:34+00:00"},{"@type":"WebSite","@id":"https:\/\/dataforgeeks.com\/#website","url":"https:\/\/dataforgeeks.com\/","name":"DataForGeeks","description":"for Data Enthusiasts","inLanguage":"en-US","publisher":{"@id":"https:\/\/dataforgeeks.com\/#organization"}}]}
+		</script>
+		<!-- All in One SEO -->
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+	<!-- This site is optimized with the Yoast SEO plugin v22.2 - https://yoast.com/wordpress/plugins/seo/ -->
+	<title>Apache Spark – Performance Tuning and Best Practices - DataForGeeks</title><link rel="preload" as="style" href="Apache%20Spark%20%E2%80%93%20Performance%20Tuning%20and%20Best%20Practices%20-%20DataForGeeks_files/css.css"><link rel="stylesheet" href="Apache%20Spark%20%E2%80%93%20Performance%20Tuning%20and%20Best%20Practices%20-%20DataForGeeks_files/css.css" media="all" onload="this.media='all'"><noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open%20Sans%3A300%2C300italic%2Cregular%2Citalic%2C600%2C600italic%2C700%2C700italic%2C800%2C800italic&#038;display=swap" /></noscript><link rel="stylesheet" href="Apache%20Spark%20%E2%80%93%20Performance%20Tuning%20and%20Best%20Practices%20-%20DataForGeeks_files/93461615c37d5719ea63ed746b4abb1d.css" media="all" data-minify="1">
+	<link rel="canonical" href="https://dataforgeeks.com/apache-spark-performance-tuning-and-best-practices/2305/">
+	<meta property="og:locale" content="en_US">
+	<meta property="og:type" content="article">
+	<meta property="og:title" content="Apache Spark - Performance Tuning and Best Practices - DataForGeeks">
+	<meta property="og:description" content="Note: This article is a compilation effort of multiple performance tuning methodologies in Apache Spark. Text/Images in following article has been referred from various interesting articles and book, details of which are captured under “References”. Tweak Configurations Viewing and Setting Apache Spark Configurations 4 ways of doing it : Way-1:Using $SPARK_HOME directory (Configuration changes in ... Read more">
+	<meta property="og:url" content="https://dataforgeeks.com/apache-spark-performance-tuning-and-best-practices/2305/">
+	<meta property="og:site_name" content="DataForGeeks">
+	<meta property="article:author" content="https://www.facebook.com/nikhil0711">
+	<meta property="article:published_time" content="2022-05-04T12:33:18+00:00">
+	<meta property="article:modified_time" content="2022-05-16T21:19:34+00:00">
+	<meta property="og:image" content="https://dataforgeeks.com/wp-content/uploads/2022/05/spark-1-tuning_spark_image.jpg">
+	<meta name="author" content="Nikhil Aggarwal">
+	<meta name="twitter:card" content="summary_large_image">
+	<meta name="twitter:creator" content="@nikhil0711">
+	<meta name="twitter:label1" content="Written by">
+	<meta name="twitter:data1" content="Nikhil Aggarwal">
+	<meta name="twitter:label2" content="Est. reading time">
+	<meta name="twitter:data2" content="21 minutes">
+	<script type="application/ld+json" class="yoast-schema-graph">{"@context":"https://schema.org","@graph":[{"@type":"WebPage","@id":"https://dataforgeeks.com/apache-spark-performance-tuning-and-best-practices/2305/","url":"https://dataforgeeks.com/apache-spark-performance-tuning-and-best-practices/2305/","name":"Apache Spark - Performance Tuning and Best Practices - DataForGeeks","isPartOf":{"@id":"https://dataforgeeks.com/#website"},"primaryImageOfPage":{"@id":"https://dataforgeeks.com/apache-spark-performance-tuning-and-best-practices/2305/#primaryimage"},"image":{"@id":"https://dataforgeeks.com/apache-spark-performance-tuning-and-best-practices/2305/#primaryimage"},"thumbnailUrl":"https://dataforgeeks.com/wp-content/uploads/2022/05/spark-1-tuning_spark_image.jpg","datePublished":"2022-05-04T12:33:18+00:00","dateModified":"2022-05-16T21:19:34+00:00","author":{"@id":"https://dataforgeeks.com/#/schema/person/ae74f1c10c65d4f465e8f1b929862fcd"},"breadcrumb":{"@id":"https://dataforgeeks.com/apache-spark-performance-tuning-and-best-practices/2305/#breadcrumb"},"inLanguage":"en-US","potentialAction":[{"@type":"ReadAction","target":["https://dataforgeeks.com/apache-spark-performance-tuning-and-best-practices/2305/"]}]},{"@type":"ImageObject","inLanguage":"en-US","@id":"https://dataforgeeks.com/apache-spark-performance-tuning-and-best-practices/2305/#primaryimage","url":"https://dataforgeeks.com/wp-content/uploads/2022/05/spark-1-tuning_spark_image.jpg","contentUrl":"https://dataforgeeks.com/wp-content/uploads/2022/05/spark-1-tuning_spark_image.jpg","width":800,"height":405},{"@type":"BreadcrumbList","@id":"https://dataforgeeks.com/apache-spark-performance-tuning-and-best-practices/2305/#breadcrumb","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://dataforgeeks.com/"},{"@type":"ListItem","position":2,"name":"Apache Spark &#8211; Performance Tuning and Best Practices"}]},{"@type":"WebSite","@id":"https://dataforgeeks.com/#website","url":"https://dataforgeeks.com/","name":"DataForGeeks","description":"for Data Enthusiasts","potentialAction":[{"@type":"SearchAction","target":{"@type":"EntryPoint","urlTemplate":"https://dataforgeeks.com/?s={search_term_string}"},"query-input":"required name=search_term_string"}],"inLanguage":"en-US"},{"@type":"Person","@id":"https://dataforgeeks.com/#/schema/person/ae74f1c10c65d4f465e8f1b929862fcd","name":"Nikhil Aggarwal","image":{"@type":"ImageObject","inLanguage":"en-US","@id":"https://dataforgeeks.com/#/schema/person/image/","url":"https://secure.gravatar.com/avatar/016ca5b64577f70665b090b10f01e648?s=96&d=mm&r=g","contentUrl":"https://secure.gravatar.com/avatar/016ca5b64577f70665b090b10f01e648?s=96&d=mm&r=g","caption":"Nikhil Aggarwal"},"sameAs":["http://www.dataforgeeks.com","https://www.facebook.com/nikhil0711","https://www.linkedin.com/in/nikhil0711/","https://twitter.com/nikhil0711"],"url":"https://dataforgeeks.com/author/nikhilaggarwal/"}]}</script>
+	<!-- / Yoast SEO plugin. -->
+
+
+<link rel="dns-prefetch" href="https://www.googletagmanager.com/">
+<link rel="dns-prefetch" href="https://pagead2.googlesyndication.com/">
+<link href="https://fonts.gstatic.com/" crossorigin="" rel="preconnect">
+<link href="https://fonts.googleapis.com/" crossorigin="" rel="preconnect">
+<link rel="alternate" type="application/rss+xml" title="DataForGeeks » Feed" href="https://dataforgeeks.com/feed/">
+<link rel="alternate" type="application/rss+xml" title="DataForGeeks » Comments Feed" href="https://dataforgeeks.com/comments/feed/">
+<link rel="alternate" type="application/rss+xml" title="DataForGeeks » Apache Spark – Performance Tuning and Best Practices Comments Feed" href="https://dataforgeeks.com/apache-spark-performance-tuning-and-best-practices/2305/feed/">
+		<!-- This site uses the Google Analytics by MonsterInsights plugin v8.26.0 - Using Analytics tracking - https://www.monsterinsights.com/ -->
+							<script src="Apache%20Spark%20%E2%80%93%20Performance%20Tuning%20and%20Best%20Practices%20-%20DataForGeeks_files/js" data-cfasync="false" data-wpfc-render="false" async=""></script>
+			<script data-cfasync="false" data-wpfc-render="false">
+				var mi_version = '8.26.0';
+				var mi_track_user = true;
+				var mi_no_track_reason = '';
+								var MonsterInsightsDefaultLocations = {"page_location":"https:\/\/dataforgeeks.com\/apache-spark-performance-tuning-and-best-practices\/2305\/"};
+				if ( typeof MonsterInsightsPrivacyGuardFilter === 'function' ) {
+					var MonsterInsightsLocations = (typeof MonsterInsightsExcludeQuery === 'object') ? MonsterInsightsPrivacyGuardFilter( MonsterInsightsExcludeQuery ) : MonsterInsightsPrivacyGuardFilter( MonsterInsightsDefaultLocations );
+				} else {
+					var MonsterInsightsLocations = (typeof MonsterInsightsExcludeQuery === 'object') ? MonsterInsightsExcludeQuery : MonsterInsightsDefaultLocations;
+				}
+
+								var disableStrs = [
+										'ga-disable-G-MTCC3ZV3SQ',
+									];
+
+				/* Function to detect opted out users */
+				function __gtagTrackerIsOptedOut() {
+					for (var index = 0; index < disableStrs.length; index++) {
+						if (document.cookie.indexOf(disableStrs[index] + '=true') > -1) {
+							return true;
+						}
+					}
+
+					return false;
+				}
+
+				/* Disable tracking if the opt-out cookie exists. */
+				if (__gtagTrackerIsOptedOut()) {
+					for (var index = 0; index < disableStrs.length; index++) {
+						window[disableStrs[index]] = true;
+					}
+				}
+
+				/* Opt-out function */
+				function __gtagTrackerOptout() {
+					for (var index = 0; index < disableStrs.length; index++) {
+						document.cookie = disableStrs[index] + '=true; expires=Thu, 31 Dec 2099 23:59:59 UTC; path=/';
+						window[disableStrs[index]] = true;
+					}
+				}
+
+				if ('undefined' === typeof gaOptout) {
+					function gaOptout() {
+						__gtagTrackerOptout();
+					}
+				}
+								window.dataLayer = window.dataLayer || [];
+
+				window.MonsterInsightsDualTracker = {
+					helpers: {},
+					trackers: {},
+				};
+				if (mi_track_user) {
+					function __gtagDataLayer() {
+						dataLayer.push(arguments);
+					}
+
+					function __gtagTracker(type, name, parameters) {
+						if (!parameters) {
+							parameters = {};
+						}
+
+						if (parameters.send_to) {
+							__gtagDataLayer.apply(null, arguments);
+							return;
+						}
+
+						if (type === 'event') {
+														parameters.send_to = monsterinsights_frontend.v4_id;
+							var hookName = name;
+							if (typeof parameters['event_category'] !== 'undefined') {
+								hookName = parameters['event_category'] + ':' + name;
+							}
+
+							if (typeof MonsterInsightsDualTracker.trackers[hookName] !== 'undefined') {
+								MonsterInsightsDualTracker.trackers[hookName](parameters);
+							} else {
+								__gtagDataLayer('event', name, parameters);
+							}
+							
+						} else {
+							__gtagDataLayer.apply(null, arguments);
+						}
+					}
+
+					__gtagTracker('js', new Date());
+					__gtagTracker('set', {
+						'developer_id.dZGIzZG': true,
+											});
+					if ( MonsterInsightsLocations.page_location ) {
+						__gtagTracker('set', MonsterInsightsLocations);
+					}
+										__gtagTracker('config', 'G-MTCC3ZV3SQ', {"forceSSL":"true","link_attribution":"true"} );
+															window.gtag = __gtagTracker;										(function () {
+						/* https://developers.google.com/analytics/devguides/collection/analyticsjs/ */
+						/* ga and __gaTracker compatibility shim. */
+						var noopfn = function () {
+							return null;
+						};
+						var newtracker = function () {
+							return new Tracker();
+						};
+						var Tracker = function () {
+							return null;
+						};
+						var p = Tracker.prototype;
+						p.get = noopfn;
+						p.set = noopfn;
+						p.send = function () {
+							var args = Array.prototype.slice.call(arguments);
+							args.unshift('send');
+							__gaTracker.apply(null, args);
+						};
+						var __gaTracker = function () {
+							var len = arguments.length;
+							if (len === 0) {
+								return;
+							}
+							var f = arguments[len - 1];
+							if (typeof f !== 'object' || f === null || typeof f.hitCallback !== 'function') {
+								if ('send' === arguments[0]) {
+									var hitConverted, hitObject = false, action;
+									if ('event' === arguments[1]) {
+										if ('undefined' !== typeof arguments[3]) {
+											hitObject = {
+												'eventAction': arguments[3],
+												'eventCategory': arguments[2],
+												'eventLabel': arguments[4],
+												'value': arguments[5] ? arguments[5] : 1,
+											}
+										}
+									}
+									if ('pageview' === arguments[1]) {
+										if ('undefined' !== typeof arguments[2]) {
+											hitObject = {
+												'eventAction': 'page_view',
+												'page_path': arguments[2],
+											}
+										}
+									}
+									if (typeof arguments[2] === 'object') {
+										hitObject = arguments[2];
+									}
+									if (typeof arguments[5] === 'object') {
+										Object.assign(hitObject, arguments[5]);
+									}
+									if ('undefined' !== typeof arguments[1].hitType) {
+										hitObject = arguments[1];
+										if ('pageview' === hitObject.hitType) {
+											hitObject.eventAction = 'page_view';
+										}
+									}
+									if (hitObject) {
+										action = 'timing' === arguments[1].hitType ? 'timing_complete' : hitObject.eventAction;
+										hitConverted = mapArgs(hitObject);
+										__gtagTracker('event', action, hitConverted);
+									}
+								}
+								return;
+							}
+
+							function mapArgs(args) {
+								var arg, hit = {};
+								var gaMap = {
+									'eventCategory': 'event_category',
+									'eventAction': 'event_action',
+									'eventLabel': 'event_label',
+									'eventValue': 'event_value',
+									'nonInteraction': 'non_interaction',
+									'timingCategory': 'event_category',
+									'timingVar': 'name',
+									'timingValue': 'value',
+									'timingLabel': 'event_label',
+									'page': 'page_path',
+									'location': 'page_location',
+									'title': 'page_title',
+									'referrer' : 'page_referrer',
+								};
+								for (arg in args) {
+																		if (!(!args.hasOwnProperty(arg) || !gaMap.hasOwnProperty(arg))) {
+										hit[gaMap[arg]] = args[arg];
+									} else {
+										hit[arg] = args[arg];
+									}
+								}
+								return hit;
+							}
+
+							try {
+								f.hitCallback();
+							} catch (ex) {
+							}
+						};
+						__gaTracker.create = newtracker;
+						__gaTracker.getByName = newtracker;
+						__gaTracker.getAll = function () {
+							return [];
+						};
+						__gaTracker.remove = noopfn;
+						__gaTracker.loaded = true;
+						window['__gaTracker'] = __gaTracker;
+					})();
+									} else {
+										console.log("");
+					(function () {
+						function __gtagTracker() {
+							return null;
+						}
+
+						window['__gtagTracker'] = __gtagTracker;
+						window['gtag'] = __gtagTracker;
+					})();
+									}
+			</script>
+				<!-- / Google Analytics by MonsterInsights -->
+		
+<style id="wp-emoji-styles-inline-css">
+
+	img.wp-smiley, img.emoji {
+		display: inline !important;
+		border: none !important;
+		box-shadow: none !important;
+		height: 1em !important;
+		width: 1em !important;
+		margin: 0 0.07em !important;
+		vertical-align: -0.1em !important;
+		background: none !important;
+		padding: 0 !important;
+	}
+</style>
+
+<style id="classic-theme-styles-inline-css">
+/*! This file is auto-generated */
+.wp-block-button__link{color:#fff;background-color:#32373c;border-radius:9999px;box-shadow:none;text-decoration:none;padding:calc(.667em + 2px) calc(1.333em + 2px);font-size:1.125em}.wp-block-file__button{background:#32373c;color:#fff;text-decoration:none}
+</style>
+<style id="global-styles-inline-css">
+body{--wp--preset--color--black: #000000;--wp--preset--color--cyan-bluish-gray: #abb8c3;--wp--preset--color--white: #ffffff;--wp--preset--color--pale-pink: #f78da7;--wp--preset--color--vivid-red: #cf2e2e;--wp--preset--color--luminous-vivid-orange: #ff6900;--wp--preset--color--luminous-vivid-amber: #fcb900;--wp--preset--color--light-green-cyan: #7bdcb5;--wp--preset--color--vivid-green-cyan: #00d084;--wp--preset--color--pale-cyan-blue: #8ed1fc;--wp--preset--color--vivid-cyan-blue: #0693e3;--wp--preset--color--vivid-purple: #9b51e0;--wp--preset--color--contrast: var(--contrast);--wp--preset--color--contrast-2: var(--contrast-2);--wp--preset--color--contrast-3: var(--contrast-3);--wp--preset--color--base: var(--base);--wp--preset--color--base-2: var(--base-2);--wp--preset--color--base-3: var(--base-3);--wp--preset--color--accent: var(--accent);--wp--preset--gradient--vivid-cyan-blue-to-vivid-purple: linear-gradient(135deg,rgba(6,147,227,1) 0%,rgb(155,81,224) 100%);--wp--preset--gradient--light-green-cyan-to-vivid-green-cyan: linear-gradient(135deg,rgb(122,220,180) 0%,rgb(0,208,130) 100%);--wp--preset--gradient--luminous-vivid-amber-to-luminous-vivid-orange: linear-gradient(135deg,rgba(252,185,0,1) 0%,rgba(255,105,0,1) 100%);--wp--preset--gradient--luminous-vivid-orange-to-vivid-red: linear-gradient(135deg,rgba(255,105,0,1) 0%,rgb(207,46,46) 100%);--wp--preset--gradient--very-light-gray-to-cyan-bluish-gray: linear-gradient(135deg,rgb(238,238,238) 0%,rgb(169,184,195) 100%);--wp--preset--gradient--cool-to-warm-spectrum: linear-gradient(135deg,rgb(74,234,220) 0%,rgb(151,120,209) 20%,rgb(207,42,186) 40%,rgb(238,44,130) 60%,rgb(251,105,98) 80%,rgb(254,248,76) 100%);--wp--preset--gradient--blush-light-purple: linear-gradient(135deg,rgb(255,206,236) 0%,rgb(152,150,240) 100%);--wp--preset--gradient--blush-bordeaux: linear-gradient(135deg,rgb(254,205,165) 0%,rgb(254,45,45) 50%,rgb(107,0,62) 100%);--wp--preset--gradient--luminous-dusk: linear-gradient(135deg,rgb(255,203,112) 0%,rgb(199,81,192) 50%,rgb(65,88,208) 100%);--wp--preset--gradient--pale-ocean: linear-gradient(135deg,rgb(255,245,203) 0%,rgb(182,227,212) 50%,rgb(51,167,181) 100%);--wp--preset--gradient--electric-grass: linear-gradient(135deg,rgb(202,248,128) 0%,rgb(113,206,126) 100%);--wp--preset--gradient--midnight: linear-gradient(135deg,rgb(2,3,129) 0%,rgb(40,116,252) 100%);--wp--preset--font-size--small: 13px;--wp--preset--font-size--medium: 20px;--wp--preset--font-size--large: 36px;--wp--preset--font-size--x-large: 42px;--wp--preset--spacing--20: 0.44rem;--wp--preset--spacing--30: 0.67rem;--wp--preset--spacing--40: 1rem;--wp--preset--spacing--50: 1.5rem;--wp--preset--spacing--60: 2.25rem;--wp--preset--spacing--70: 3.38rem;--wp--preset--spacing--80: 5.06rem;--wp--preset--shadow--natural: 6px 6px 9px rgba(0, 0, 0, 0.2);--wp--preset--shadow--deep: 12px 12px 50px rgba(0, 0, 0, 0.4);--wp--preset--shadow--sharp: 6px 6px 0px rgba(0, 0, 0, 0.2);--wp--preset--shadow--outlined: 6px 6px 0px -3px rgba(255, 255, 255, 1), 6px 6px rgba(0, 0, 0, 1);--wp--preset--shadow--crisp: 6px 6px 0px rgba(0, 0, 0, 1);}:where(.is-layout-flex){gap: 0.5em;}:where(.is-layout-grid){gap: 0.5em;}body .is-layout-flow > .alignleft{float: left;margin-inline-start: 0;margin-inline-end: 2em;}body .is-layout-flow > .alignright{float: right;margin-inline-start: 2em;margin-inline-end: 0;}body .is-layout-flow > .aligncenter{margin-left: auto !important;margin-right: auto !important;}body .is-layout-constrained > .alignleft{float: left;margin-inline-start: 0;margin-inline-end: 2em;}body .is-layout-constrained > .alignright{float: right;margin-inline-start: 2em;margin-inline-end: 0;}body .is-layout-constrained > .aligncenter{margin-left: auto !important;margin-right: auto !important;}body .is-layout-constrained > :where(:not(.alignleft):not(.alignright):not(.alignfull)){max-width: var(--wp--style--global--content-size);margin-left: auto !important;margin-right: auto !important;}body .is-layout-constrained > .alignwide{max-width: var(--wp--style--global--wide-size);}body .is-layout-flex{display: flex;}body .is-layout-flex{flex-wrap: wrap;align-items: center;}body .is-layout-flex > *{margin: 0;}body .is-layout-grid{display: grid;}body .is-layout-grid > *{margin: 0;}:where(.wp-block-columns.is-layout-flex){gap: 2em;}:where(.wp-block-columns.is-layout-grid){gap: 2em;}:where(.wp-block-post-template.is-layout-flex){gap: 1.25em;}:where(.wp-block-post-template.is-layout-grid){gap: 1.25em;}.has-black-color{color: var(--wp--preset--color--black) !important;}.has-cyan-bluish-gray-color{color: var(--wp--preset--color--cyan-bluish-gray) !important;}.has-white-color{color: var(--wp--preset--color--white) !important;}.has-pale-pink-color{color: var(--wp--preset--color--pale-pink) !important;}.has-vivid-red-color{color: var(--wp--preset--color--vivid-red) !important;}.has-luminous-vivid-orange-color{color: var(--wp--preset--color--luminous-vivid-orange) !important;}.has-luminous-vivid-amber-color{color: var(--wp--preset--color--luminous-vivid-amber) !important;}.has-light-green-cyan-color{color: var(--wp--preset--color--light-green-cyan) !important;}.has-vivid-green-cyan-color{color: var(--wp--preset--color--vivid-green-cyan) !important;}.has-pale-cyan-blue-color{color: var(--wp--preset--color--pale-cyan-blue) !important;}.has-vivid-cyan-blue-color{color: var(--wp--preset--color--vivid-cyan-blue) !important;}.has-vivid-purple-color{color: var(--wp--preset--color--vivid-purple) !important;}.has-black-background-color{background-color: var(--wp--preset--color--black) !important;}.has-cyan-bluish-gray-background-color{background-color: var(--wp--preset--color--cyan-bluish-gray) !important;}.has-white-background-color{background-color: var(--wp--preset--color--white) !important;}.has-pale-pink-background-color{background-color: var(--wp--preset--color--pale-pink) !important;}.has-vivid-red-background-color{background-color: var(--wp--preset--color--vivid-red) !important;}.has-luminous-vivid-orange-background-color{background-color: var(--wp--preset--color--luminous-vivid-orange) !important;}.has-luminous-vivid-amber-background-color{background-color: var(--wp--preset--color--luminous-vivid-amber) !important;}.has-light-green-cyan-background-color{background-color: var(--wp--preset--color--light-green-cyan) !important;}.has-vivid-green-cyan-background-color{background-color: var(--wp--preset--color--vivid-green-cyan) !important;}.has-pale-cyan-blue-background-color{background-color: var(--wp--preset--color--pale-cyan-blue) !important;}.has-vivid-cyan-blue-background-color{background-color: var(--wp--preset--color--vivid-cyan-blue) !important;}.has-vivid-purple-background-color{background-color: var(--wp--preset--color--vivid-purple) !important;}.has-black-border-color{border-color: var(--wp--preset--color--black) !important;}.has-cyan-bluish-gray-border-color{border-color: var(--wp--preset--color--cyan-bluish-gray) !important;}.has-white-border-color{border-color: var(--wp--preset--color--white) !important;}.has-pale-pink-border-color{border-color: var(--wp--preset--color--pale-pink) !important;}.has-vivid-red-border-color{border-color: var(--wp--preset--color--vivid-red) !important;}.has-luminous-vivid-orange-border-color{border-color: var(--wp--preset--color--luminous-vivid-orange) !important;}.has-luminous-vivid-amber-border-color{border-color: var(--wp--preset--color--luminous-vivid-amber) !important;}.has-light-green-cyan-border-color{border-color: var(--wp--preset--color--light-green-cyan) !important;}.has-vivid-green-cyan-border-color{border-color: var(--wp--preset--color--vivid-green-cyan) !important;}.has-pale-cyan-blue-border-color{border-color: var(--wp--preset--color--pale-cyan-blue) !important;}.has-vivid-cyan-blue-border-color{border-color: var(--wp--preset--color--vivid-cyan-blue) !important;}.has-vivid-purple-border-color{border-color: var(--wp--preset--color--vivid-purple) !important;}.has-vivid-cyan-blue-to-vivid-purple-gradient-background{background: var(--wp--preset--gradient--vivid-cyan-blue-to-vivid-purple) !important;}.has-light-green-cyan-to-vivid-green-cyan-gradient-background{background: var(--wp--preset--gradient--light-green-cyan-to-vivid-green-cyan) !important;}.has-luminous-vivid-amber-to-luminous-vivid-orange-gradient-background{background: var(--wp--preset--gradient--luminous-vivid-amber-to-luminous-vivid-orange) !important;}.has-luminous-vivid-orange-to-vivid-red-gradient-background{background: var(--wp--preset--gradient--luminous-vivid-orange-to-vivid-red) !important;}.has-very-light-gray-to-cyan-bluish-gray-gradient-background{background: var(--wp--preset--gradient--very-light-gray-to-cyan-bluish-gray) !important;}.has-cool-to-warm-spectrum-gradient-background{background: var(--wp--preset--gradient--cool-to-warm-spectrum) !important;}.has-blush-light-purple-gradient-background{background: var(--wp--preset--gradient--blush-light-purple) !important;}.has-blush-bordeaux-gradient-background{background: var(--wp--preset--gradient--blush-bordeaux) !important;}.has-luminous-dusk-gradient-background{background: var(--wp--preset--gradient--luminous-dusk) !important;}.has-pale-ocean-gradient-background{background: var(--wp--preset--gradient--pale-ocean) !important;}.has-electric-grass-gradient-background{background: var(--wp--preset--gradient--electric-grass) !important;}.has-midnight-gradient-background{background: var(--wp--preset--gradient--midnight) !important;}.has-small-font-size{font-size: var(--wp--preset--font-size--small) !important;}.has-medium-font-size{font-size: var(--wp--preset--font-size--medium) !important;}.has-large-font-size{font-size: var(--wp--preset--font-size--large) !important;}.has-x-large-font-size{font-size: var(--wp--preset--font-size--x-large) !important;}
+.wp-block-navigation a:where(:not(.wp-element-button)){color: inherit;}
+:where(.wp-block-post-template.is-layout-flex){gap: 1.25em;}:where(.wp-block-post-template.is-layout-grid){gap: 1.25em;}
+:where(.wp-block-columns.is-layout-flex){gap: 2em;}:where(.wp-block-columns.is-layout-grid){gap: 2em;}
+.wp-block-pullquote{font-size: 1.5em;line-height: 1.6;}
+</style>
+
+
+
+<style id="ez-toc-inline-css">
+div#ez-toc-container .ez-toc-title {font-size: 120%;}div#ez-toc-container .ez-toc-title {font-weight: 500;}div#ez-toc-container ul li {font-size: 95%;}div#ez-toc-container ul li {font-weight: 500;}div#ez-toc-container nav ul ul li {font-size: 90%;}
+.ez-toc-container-direction {direction: ltr;}.ez-toc-counter ul{counter-reset: item ;}.ez-toc-counter nav ul li a::before {content: counters(item, ".", decimal) ". ";display: inline-block;counter-increment: item;flex-grow: 0;flex-shrink: 0;margin-right: .2em; float: left; }.ez-toc-widget-direction {direction: ltr;}.ez-toc-widget-container ul{counter-reset: item ;}.ez-toc-widget-container nav ul li a::before {content: counters(item, ".", decimal) ". ";display: inline-block;counter-increment: item;flex-grow: 0;flex-shrink: 0;margin-right: .2em; float: left; }
+</style>
+
+
+<style id="generate-style-inline-css">
+body{background-color:#efefef;color:#3a3a3a;}a{color:#1e73be;}a:hover, a:focus, a:active{color:#000000;}body .grid-container{max-width:1490px;}.wp-block-group__inner-container{max-width:1490px;margin-left:auto;margin-right:auto;}.generate-back-to-top{font-size:20px;border-radius:3px;position:fixed;bottom:30px;right:30px;line-height:40px;width:40px;text-align:center;z-index:10;transition:opacity 300ms ease-in-out;opacity:0.1;transform:translateY(1000px);}.generate-back-to-top__show{opacity:1;transform:translateY(0);}:root{--contrast:#222222;--contrast-2:#575760;--contrast-3:#b2b2be;--base:#f0f0f0;--base-2:#f7f8f9;--base-3:#ffffff;--accent:#1e73be;}:root .has-contrast-color{color:var(--contrast);}:root .has-contrast-background-color{background-color:var(--contrast);}:root .has-contrast-2-color{color:var(--contrast-2);}:root .has-contrast-2-background-color{background-color:var(--contrast-2);}:root .has-contrast-3-color{color:var(--contrast-3);}:root .has-contrast-3-background-color{background-color:var(--contrast-3);}:root .has-base-color{color:var(--base);}:root .has-base-background-color{background-color:var(--base);}:root .has-base-2-color{color:var(--base-2);}:root .has-base-2-background-color{background-color:var(--base-2);}:root .has-base-3-color{color:var(--base-3);}:root .has-base-3-background-color{background-color:var(--base-3);}:root .has-accent-color{color:var(--accent);}:root .has-accent-background-color{background-color:var(--accent);}body, button, input, select, textarea{font-family:"Open Sans", sans-serif;font-size:16px;}body{line-height:1.5;}p{margin-bottom:0.7em;}.entry-content > [class*="wp-block-"]:not(:last-child):not(.wp-block-heading){margin-bottom:0.7em;}.main-title{font-size:45px;}.main-navigation .main-nav ul ul li a{font-size:14px;}.widget-title{font-size:19px;margin-bottom:10px;}.sidebar .widget, .footer-widgets .widget{font-size:14px;}h1{font-weight:400;font-size:40px;}h2{font-weight:300;font-size:30px;}h3{font-size:20px;}h4{font-size:inherit;}h5{font-size:inherit;}@media (max-width:768px){.main-title{font-size:30px;}h1{font-size:30px;}h2{font-size:25px;}}.top-bar{background-color:#636363;color:#ffffff;}.top-bar a{color:#ffffff;}.top-bar a:hover{color:#303030;}.site-header{background-color:#ffffff;color:#3a3a3a;}.site-header a{color:#3a3a3a;}.main-title a,.main-title a:hover{color:#222222;}.site-description{color:#757575;}.main-navigation,.main-navigation ul ul{background-color:#1e73be;}.main-navigation .main-nav ul li a, .main-navigation .menu-toggle, .main-navigation .menu-bar-items{color:#ffffff;}.main-navigation .main-nav ul li:not([class*="current-menu-"]):hover > a, .main-navigation .main-nav ul li:not([class*="current-menu-"]):focus > a, .main-navigation .main-nav ul li.sfHover:not([class*="current-menu-"]) > a, .main-navigation .menu-bar-item:hover > a, .main-navigation .menu-bar-item.sfHover > a{color:#ffffff;background-color:#035a9e;}button.menu-toggle:hover,button.menu-toggle:focus,.main-navigation .mobile-bar-items a,.main-navigation .mobile-bar-items a:hover,.main-navigation .mobile-bar-items a:focus{color:#ffffff;}.main-navigation .main-nav ul li[class*="current-menu-"] > a{color:#ffffff;background-color:#035a9e;}.navigation-search input[type="search"],.navigation-search input[type="search"]:active, .navigation-search input[type="search"]:focus, .main-navigation .main-nav ul li.search-item.active > a, .main-navigation .menu-bar-items .search-item.active > a{color:#ffffff;background-color:#035a9e;}.main-navigation ul ul{background-color:#035a9e;}.main-navigation .main-nav ul ul li a{color:#ffffff;}.main-navigation .main-nav ul ul li:not([class*="current-menu-"]):hover > a,.main-navigation .main-nav ul ul li:not([class*="current-menu-"]):focus > a, .main-navigation .main-nav ul ul li.sfHover:not([class*="current-menu-"]) > a{color:#bbd2e8;background-color:#035a9e;}.main-navigation .main-nav ul ul li[class*="current-menu-"] > a{color:#bbd2e8;background-color:#035a9e;}.separate-containers .inside-article, .separate-containers .comments-area, .separate-containers .page-header, .one-container .container, .separate-containers .paging-navigation, .inside-page-header{background-color:#ffffff;}.entry-meta{color:#595959;}.entry-meta a{color:#595959;}.entry-meta a:hover{color:#1e73be;}.sidebar .widget{background-color:#ffffff;}.sidebar .widget .widget-title{color:#000000;}.footer-widgets{background-color:#ffffff;}.footer-widgets .widget-title{color:#000000;}.site-info{color:#ffffff;background-color:#222222;}.site-info a{color:#ffffff;}.site-info a:hover{color:#606060;}.footer-bar .widget_nav_menu .current-menu-item a{color:#606060;}input[type="text"],input[type="email"],input[type="url"],input[type="password"],input[type="search"],input[type="tel"],input[type="number"],textarea,select{color:#666666;background-color:#fafafa;border-color:#cccccc;}input[type="text"]:focus,input[type="email"]:focus,input[type="url"]:focus,input[type="password"]:focus,input[type="search"]:focus,input[type="tel"]:focus,input[type="number"]:focus,textarea:focus,select:focus{color:#666666;background-color:#ffffff;border-color:#bfbfbf;}button,html input[type="button"],input[type="reset"],input[type="submit"],a.button,a.wp-block-button__link:not(.has-background){color:#ffffff;background-color:#666666;}button:hover,html input[type="button"]:hover,input[type="reset"]:hover,input[type="submit"]:hover,a.button:hover,button:focus,html input[type="button"]:focus,input[type="reset"]:focus,input[type="submit"]:focus,a.button:focus,a.wp-block-button__link:not(.has-background):active,a.wp-block-button__link:not(.has-background):focus,a.wp-block-button__link:not(.has-background):hover{color:#ffffff;background-color:#3f3f3f;}a.generate-back-to-top{background-color:rgba( 0,0,0,0.4 );color:#ffffff;}a.generate-back-to-top:hover,a.generate-back-to-top:focus{background-color:rgba( 0,0,0,0.6 );color:#ffffff;}:root{--gp-search-modal-bg-color:var(--base-3);--gp-search-modal-text-color:var(--contrast);--gp-search-modal-overlay-bg-color:rgba(0,0,0,0.2);}@media (max-width: 768px){.main-navigation .menu-bar-item:hover > a, .main-navigation .menu-bar-item.sfHover > a{background:none;color:#ffffff;}}.inside-top-bar{padding:10px;}.inside-header{padding:40px;}.site-main .wp-block-group__inner-container{padding:40px;}.entry-content .alignwide, body:not(.no-sidebar) .entry-content .alignfull{margin-left:-40px;width:calc(100% + 80px);max-width:calc(100% + 80px);}.separate-containers .widget, .separate-containers .site-main > *, .separate-containers .page-header, .widget-area .main-navigation{margin-bottom:13px;}.separate-containers .site-main{margin:13px;}.both-right.separate-containers .inside-left-sidebar{margin-right:6px;}.both-right.separate-containers .inside-right-sidebar{margin-left:6px;}.both-left.separate-containers .inside-left-sidebar{margin-right:6px;}.both-left.separate-containers .inside-right-sidebar{margin-left:6px;}.separate-containers .page-header-image, .separate-containers .page-header-contained, .separate-containers .page-header-image-single, .separate-containers .page-header-content-single{margin-top:13px;}.separate-containers .inside-right-sidebar, .separate-containers .inside-left-sidebar{margin-top:13px;margin-bottom:13px;}.rtl .menu-item-has-children .dropdown-menu-toggle{padding-left:20px;}.rtl .main-navigation .main-nav ul li.menu-item-has-children > a{padding-right:20px;}.site-info{padding:20px;}@media (max-width:768px){.separate-containers .inside-article, .separate-containers .comments-area, .separate-containers .page-header, .separate-containers .paging-navigation, .one-container .site-content, .inside-page-header{padding:30px;}.site-main .wp-block-group__inner-container{padding:30px;}.site-info{padding-right:10px;padding-left:10px;}.entry-content .alignwide, body:not(.no-sidebar) .entry-content .alignfull{margin-left:-30px;width:calc(100% + 60px);max-width:calc(100% + 60px);}}.one-container .sidebar .widget{padding:0px;}@media (max-width: 768px){.main-navigation .menu-toggle,.main-navigation .mobile-bar-items,.sidebar-nav-mobile:not(#sticky-placeholder){display:block;}.main-navigation ul,.gen-sidebar-nav{display:none;}[class*="nav-float-"] .site-header .inside-header > *{float:none;clear:both;}}
+.main-navigation .slideout-toggle a:before,.slide-opened .slideout-overlay .slideout-exit:before{font-family:GeneratePress;}.slideout-navigation .dropdown-menu-toggle:before{content:"\f107" !important;}.slideout-navigation .sfHover > a .dropdown-menu-toggle:before{content:"\f106" !important;}
+.navigation-branding .main-title{font-weight:bold;text-transform:none;font-size:45px;}@media (max-width: 768px){.navigation-branding .main-title{font-size:30px;}}
+.main-navigation .main-nav ul li a,.menu-toggle,.main-navigation .mobile-bar-items a{transition: line-height 300ms ease}.main-navigation.toggled .main-nav > ul{background-color: #1e73be}
+.post-image, .page-content, .entry-content, .entry-summary, footer.entry-meta{margin-top:2.5em;}.post-image-above-header .inside-article div.featured-image, .post-image-above-header .inside-article div.post-image{margin-bottom:2.5em;}
+</style>
+
+
+
+
+
+
+<style id="rocket-lazyload-inline-css">
+.rll-youtube-player{position:relative;padding-bottom:56.23%;height:0;overflow:hidden;max-width:100%;}.rll-youtube-player:focus-within{outline: 2px solid currentColor;outline-offset: 5px;}.rll-youtube-player iframe{position:absolute;top:0;left:0;width:100%;height:100%;z-index:100;background:0 0}.rll-youtube-player img{bottom:0;display:block;left:0;margin:auto;max-width:100%;width:100%;position:absolute;right:0;top:0;border:none;height:auto;-webkit-transition:.4s all;-moz-transition:.4s all;transition:.4s all}.rll-youtube-player img:hover{-webkit-filter:brightness(75%)}.rll-youtube-player .play{height:100%;width:100%;left:0;top:0;position:absolute;background:url(https://dataforgeeks.com/wp-content/plugins/wp-rocket/assets/img/youtube.png) no-repeat center;background-color: transparent !important;cursor:pointer;border:none;}.wp-embed-responsive .wp-has-aspect-ratio .rll-youtube-player{position:absolute;padding-bottom:0;width:100%;height:100%;top:0;bottom:0;left:0;right:0}
+</style>
+<script src="Apache%20Spark%20%E2%80%93%20Performance%20Tuning%20and%20Best%20Practices%20-%20DataForGeeks_files/jquery.min.js" id="jquery-core-js"></script>
+
+
+
+
+<!-- Google tag (gtag.js) snippet added by Site Kit -->
+
+<!-- Google Analytics snippet added by Site Kit -->
+<script src="Apache%20Spark%20%E2%80%93%20Performance%20Tuning%20and%20Best%20Practices%20-%20DataForGeeks_files/js_002" id="google_gtagjs-js" async=""></script>
+<script id="google_gtagjs-js-after">
+window.dataLayer = window.dataLayer || [];function gtag(){dataLayer.push(arguments);}
+gtag("set","linker",{"domains":["dataforgeeks.com"]});
+gtag("js", new Date());
+gtag("set", "developer_id.dZTNiMT", true);
+gtag("config", "GT-MQX89S3");
+</script>
+
+<!-- End Google tag (gtag.js) snippet added by Site Kit -->
+<link rel="https://api.w.org/" href="https://dataforgeeks.com/wp-json/"><link rel="alternate" type="application/json" href="https://dataforgeeks.com/wp-json/wp/v2/posts/2305"><link rel="EditURI" type="application/rsd+xml" title="RSD" href="https://dataforgeeks.com/xmlrpc.php?rsd">
+<meta name="generator" content="WordPress 6.5.2">
+<link rel="shortlink" href="https://dataforgeeks.com/?p=2305">
+<link rel="alternate" type="application/json+oembed" href="https://dataforgeeks.com/wp-json/oembed/1.0/embed?url=https%3A%2F%2Fdataforgeeks.com%2Fapache-spark-performance-tuning-and-best-practices%2F2305%2F">
+<link rel="alternate" type="text/xml+oembed" href="https://dataforgeeks.com/wp-json/oembed/1.0/embed?url=https%3A%2F%2Fdataforgeeks.com%2Fapache-spark-performance-tuning-and-best-practices%2F2305%2F&amp;format=xml">
+<meta name="generator" content="Site Kit by Google 1.125.0">
+ <!-- OneAll.com / Social Login for WordPress / v5.7 -->
+
+<style>.oneall_social_login + p.comment-notes{margin-top: 10px !important;}#login #loginform .oneall_social_login{background-color: rgba(0, 0, 0, 0.04);padding: 10px 10px 0 10px;margin-bottom: 10px;border: 1px solid rgba(0, 0, 0, 0.06);border-radius: 4px;}</style><link rel="pingback" href="https://dataforgeeks.com/xmlrpc.php">
+
+<!-- Google AdSense meta tags added by Site Kit -->
+<meta name="google-adsense-platform-account" content="ca-host-pub-2644536267352236">
+<meta name="google-adsense-platform-domain" content="sitekit.withgoogle.com">
+<!-- End Google AdSense meta tags added by Site Kit -->
+
+<!-- Google AdSense snippet added by Site Kit -->
+<script async="" src="Apache%20Spark%20%E2%80%93%20Performance%20Tuning%20and%20Best%20Practices%20-%20DataForGeeks_files/f_003.txt" crossorigin="anonymous" data-checked-head="true"></script>
+
+<!-- End Google AdSense snippet added by Site Kit -->
+		<style id="wp-custom-css">
+			hr{
+	margin-bottom:20px;
+	margin-top:20px
+}
+table { /* tables still need 'cellspacing="0"' in the markup */
+	border-collapse: separate;
+	border-spacing: 0;
+	font-size: 12px;
+}
+caption,
+th,
+td {
+	font-weight: normal;
+/*	text-align: center; 
+	padding: 1;*/
+	height: 0;
+}
+tr:first-child td{
+	font-weight: bold;
+	background-color: #84dbf5;
+}
+tr:nth-child(even) {
+/*	background-color: #f2f2f2;*/
+}
+/* Adding following code on 24-Mar-2022 
+table:not(.variations):not(.shop_table) {
+  background: none;
+}
+
+table:not(.variations):not(.shop_table) tbody tr:nth-child(odd) {
+  background-color: rgba(255,255,255,.15);
+}
+*/		</style>
+		<noscript><style id="rocket-lazyload-nojs-css">.rll-youtube-player, [data-lazy-src]{display:none !important;}</style></noscript><meta http-equiv="origin-trial" content="AlK2UR5SkAlj8jjdEc9p3F3xuFYlF6LYjAML3EOqw1g26eCwWPjdmecULvBH5MVPoqKYrOfPhYVL71xAXI1IBQoAAAB8eyJvcmlnaW4iOiJodHRwczovL2RvdWJsZWNsaWNrLm5ldDo0NDMiLCJmZWF0dXJlIjoiV2ViVmlld1hSZXF1ZXN0ZWRXaXRoRGVwcmVjYXRpb24iLCJleHBpcnkiOjE3NTgwNjcxOTksImlzU3ViZG9tYWluIjp0cnVlfQ=="><meta http-equiv="origin-trial" content="Amm8/NmvvQfhwCib6I7ZsmUxiSCfOxWxHayJwyU1r3gRIItzr7bNQid6O8ZYaE1GSQTa69WwhPC9flq/oYkRBwsAAACCeyJvcmlnaW4iOiJodHRwczovL2dvb2dsZXN5bmRpY2F0aW9uLmNvbTo0NDMiLCJmZWF0dXJlIjoiV2ViVmlld1hSZXF1ZXN0ZWRXaXRoRGVwcmVjYXRpb24iLCJleHBpcnkiOjE3NTgwNjcxOTksImlzU3ViZG9tYWluIjp0cnVlfQ=="><meta http-equiv="origin-trial" content="A/ERL66fN363FkXxgDc6F1+ucRUkAhjEca9W3la6xaLnD2Y1lABsqmdaJmPNaUKPKVBRpyMKEhXYl7rSvrQw+AkAAACNeyJvcmlnaW4iOiJodHRwczovL2RvdWJsZWNsaWNrLm5ldDo0NDMiLCJmZWF0dXJlIjoiRmxlZGdlQmlkZGluZ0FuZEF1Y3Rpb25TZXJ2ZXIiLCJleHBpcnkiOjE3MTkzNTk5OTksImlzU3ViZG9tYWluIjp0cnVlLCJpc1RoaXJkUGFydHkiOnRydWV9"><meta http-equiv="origin-trial" content="A6OdGH3fVf4eKRDbXb4thXA4InNqDJDRhZ8U533U/roYjp4Yau0T3YSuc63vmAs/8ga1cD0E3A7LEq6AXk1uXgsAAACTeyJvcmlnaW4iOiJodHRwczovL2dvb2dsZXN5bmRpY2F0aW9uLmNvbTo0NDMiLCJmZWF0dXJlIjoiRmxlZGdlQmlkZGluZ0FuZEF1Y3Rpb25TZXJ2ZXIiLCJleHBpcnkiOjE3MTkzNTk5OTksImlzU3ViZG9tYWluIjp0cnVlLCJpc1RoaXJkUGFydHkiOnRydWV9"><meta http-equiv="origin-trial" content="AlK2UR5SkAlj8jjdEc9p3F3xuFYlF6LYjAML3EOqw1g26eCwWPjdmecULvBH5MVPoqKYrOfPhYVL71xAXI1IBQoAAAB8eyJvcmlnaW4iOiJodHRwczovL2RvdWJsZWNsaWNrLm5ldDo0NDMiLCJmZWF0dXJlIjoiV2ViVmlld1hSZXF1ZXN0ZWRXaXRoRGVwcmVjYXRpb24iLCJleHBpcnkiOjE3NTgwNjcxOTksImlzU3ViZG9tYWluIjp0cnVlfQ=="><meta http-equiv="origin-trial" content="Amm8/NmvvQfhwCib6I7ZsmUxiSCfOxWxHayJwyU1r3gRIItzr7bNQid6O8ZYaE1GSQTa69WwhPC9flq/oYkRBwsAAACCeyJvcmlnaW4iOiJodHRwczovL2dvb2dsZXN5bmRpY2F0aW9uLmNvbTo0NDMiLCJmZWF0dXJlIjoiV2ViVmlld1hSZXF1ZXN0ZWRXaXRoRGVwcmVjYXRpb24iLCJleHBpcnkiOjE3NTgwNjcxOTksImlzU3ViZG9tYWluIjp0cnVlfQ=="><meta http-equiv="origin-trial" content="A/ERL66fN363FkXxgDc6F1+ucRUkAhjEca9W3la6xaLnD2Y1lABsqmdaJmPNaUKPKVBRpyMKEhXYl7rSvrQw+AkAAACNeyJvcmlnaW4iOiJodHRwczovL2RvdWJsZWNsaWNrLm5ldDo0NDMiLCJmZWF0dXJlIjoiRmxlZGdlQmlkZGluZ0FuZEF1Y3Rpb25TZXJ2ZXIiLCJleHBpcnkiOjE3MTkzNTk5OTksImlzU3ViZG9tYWluIjp0cnVlLCJpc1RoaXJkUGFydHkiOnRydWV9"><meta http-equiv="origin-trial" content="A6OdGH3fVf4eKRDbXb4thXA4InNqDJDRhZ8U533U/roYjp4Yau0T3YSuc63vmAs/8ga1cD0E3A7LEq6AXk1uXgsAAACTeyJvcmlnaW4iOiJodHRwczovL2dvb2dsZXN5bmRpY2F0aW9uLmNvbTo0NDMiLCJmZWF0dXJlIjoiRmxlZGdlQmlkZGluZ0FuZEF1Y3Rpb25TZXJ2ZXIiLCJleHBpcnkiOjE3MTkzNTk5OTksImlzU3ViZG9tYWluIjp0cnVlLCJpc1RoaXJkUGFydHkiOnRydWV9"><script async="" src="Apache%20Spark%20%E2%80%93%20Performance%20Tuning%20and%20Best%20Practices%20-%20DataForGeeks_files/ca-pub-9040638560872555"></script><script async="" src="Apache%20Spark%20%E2%80%93%20Performance%20Tuning%20and%20Best%20Practices%20-%20DataForGeeks_files/AGSKWxXbZyzuyLMgg3hB0az6eELWiCMEK1-6KjWmWjYtDmxIPLF_TSDT4ygOmW0v"></script><script async="" src="Apache%20Spark%20%E2%80%93%20Performance%20Tuning%20and%20Best%20Practices%20-%20DataForGeeks_files/AGSKWxWHKy2WMSH79C4uwle5GfRKmwUImTrCFcoRJLpiEFWJ04yc9EbCe6k5_LW6"></script><script async="" src="Apache%20Spark%20%E2%80%93%20Performance%20Tuning%20and%20Best%20Practices%20-%20DataForGeeks_files/AGSKWxVd5U2ilhC5Z0kEzsuZIIBxIJ9d_ishPK-gCiVaIQmiTa53t4J_ygPwJ2pV"></script></head>
+
+<body class="post-template-default single single-post postid-2305 single-format-standard wp-embed-responsive post-image-above-header post-image-aligned-center sticky-menu-slide sticky-enabled both-sticky-menu right-sidebar nav-below-header separate-containers fluid-header active-footer-widgets-3 nav-aligned-left header-aligned-left dropdown-hover using-mouse" itemtype="https://schema.org/Blog" itemscope="" style="padding: 0px 0px 154px;">
+	<a class="screen-reader-text skip-link" href="#content" title="Skip to content">Skip to content</a>		<header class="site-header" id="masthead" aria-label="Site" itemtype="https://schema.org/WPHeader" itemscope="">
+			<div class="inside-header grid-container grid-parent">
+							<div class="header-widget">
+				<aside id="search-2" class="widget inner-padding widget_search"><form method="get" class="search-form" action="https://dataforgeeks.com/">
+	<label>
+		<span class="screen-reader-text">Search for:</span>
+		<input type="search" class="search-field" placeholder="Search …" name="s" title="Search for:">
+	</label>
+	<input type="submit" class="search-submit" value="Search"></form>
+</aside>			</div>
+			<div class="site-branding">
+						<p class="main-title" itemprop="headline">
+					<a href="https://dataforgeeks.com/" rel="home">DataForGeeks</a>
+				</p>
+						<p class="site-description" itemprop="description">for Data Enthusiasts</p>
+					</div>			</div>
+		<div style="width: 100%; height: auto; clear: both; text-align: center;" class="google-auto-placed"><ins style="display: block; margin: 10px auto; background-color: transparent; height: 280px;" data-ad-format="auto" class="adsbygoogle adsbygoogle-noablate" data-ad-client="ca-pub-9040638560872555" data-adsbygoogle-status="done" data-ad-status="filled"><div id="aswift_1_host" style="border: medium; height: 280px; width: 1200px; margin: 0px; padding: 0px; position: relative; visibility: visible; background-color: transparent; display: inline-block; overflow: visible;"><iframe id="aswift_1" name="aswift_1" style="left:0;position:absolute;top:0;border:0;width:1200px;height:280px;" sandbox="allow-forms allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts allow-top-navigation-by-user-activation" width="1200" height="280" frameborder="0" marginwidth="0" marginheight="0" vspace="0" hspace="0" allowtransparency="true" scrolling="no" src="Apache%20Spark%20%E2%80%93%20Performance%20Tuning%20and%20Best%20Practices%20-%20DataForGeeks_files/ads.html" data-google-container-id="a!2" tabindex="0" title="Advertisement" aria-label="Advertisement" data-google-query-id="CIaEr_nd4YUDFWKVJwIdM1APSw" data-load-complete="true"></iframe></div></ins></div></header>
+				<nav class="main-navigation sub-menu-right stuckElement" id="site-navigation" aria-label="Primary" itemtype="https://schema.org/SiteNavigationElement" itemscope="" style="z-index: 100;">
+			<div class="inside-navigation grid-container grid-parent">
+								<button class="menu-toggle" aria-controls="primary-menu" aria-expanded="false">
+					<span class="mobile-menu">Menu</span>				</button>
+				<div id="primary-menu" class="main-nav"><ul id="menu-main-menu" class=" menu sf-menu"><li id="menu-item-18" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-home menu-item-18"><a href="https://dataforgeeks.com/">Home</a></li>
+<li id="menu-item-25" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-25"><a href="https://dataforgeeks.com/sql-problems/">SQL Problems</a></li>
+<li id="menu-item-13" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-13"><a href="https://dataforgeeks.com/contact-us/">Contact Us</a></li>
+</ul></div>			</div>
+		</nav><nav class="main-navigation sub-menu-right" id="sticky-placeholder" aria-label="Primary" style="visibility: hidden; display: none;">
+			<div class="inside-navigation grid-container grid-parent">
+								<button class="menu-toggle" aria-controls="primary-menu" aria-expanded="false">
+					<span class="mobile-menu">Menu</span>				</button>
+				<div id="primary-menu" class="main-nav"><ul id="menu-main-menu" class=" menu sf-menu"><li id="menu-item-18" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-home menu-item-18"><a href="https://dataforgeeks.com/">Home</a></li>
+<li id="menu-item-25" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-25"><a href="https://dataforgeeks.com/sql-problems/">SQL Problems</a></li>
+<li id="menu-item-13" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-13"><a href="https://dataforgeeks.com/contact-us/">Contact Us</a></li>
+</ul></div>			</div>
+		</nav>
+		
+	<div class="site grid-container container hfeed grid-parent" id="page" style="height: auto !important;">
+				<div class="site-content" id="content" style="height: auto !important;">
+			
+	<div class="content-area grid-parent mobile-grid-100 grid-75 tablet-grid-75" id="primary" style="height: auto !important;">
+		<main class="site-main" id="main" style="height: auto !important;">
+			
+<article id="post-2305" class="post-2305 post type-post status-publish format-standard hentry category-general tag-apache-spark tag-big-data tag-bigdata tag-optimisation tag-partition tag-spark tag-tuning" itemtype="https://schema.org/CreativeWork" itemscope="" style="height: auto !important;">
+	<div class="inside-article" style="height: auto !important;">
+					<header class="entry-header">
+				<h1 class="entry-title" itemprop="headline">Apache Spark – Performance Tuning and Best Practices</h1>		<div class="entry-meta">
+			<span class="posted-on"><time class="updated" datetime="2022-05-16T21:19:34+00:00" itemprop="dateModified">May 16, 2022</time><time class="entry-date published" datetime="2022-05-04T12:33:18+00:00" itemprop="datePublished">May 4, 2022</time></span> <span class="byline">by <span class="author vcard" itemprop="author" itemtype="https://schema.org/Person" itemscope=""><a class="url fn n" href="https://dataforgeeks.com/author/nikhilaggarwal/" title="View all posts by Nikhil Aggarwal" rel="author" itemprop="url"><span class="author-name" itemprop="name">Nikhil Aggarwal</span></a></span></span> 		</div>
+					</header>
+			
+		<div class="entry-content" itemprop="text" style="height: auto !important;">
+			
+<p>Note: This article is a compilation effort of multiple performance 
+tuning methodologies in Apache Spark. Text/Images in following article 
+has been referred from various interesting articles and book, details of
+ which are captured under “References”.</p>
+
+
+
+<figure class="wp-block-image size-full"><img fetchpriority="high" decoding="async" width="800" height="405" src="Apache%20Spark%20%E2%80%93%20Performance%20Tuning%20and%20Best%20Practices%20-%20DataForGeeks_files/spark-1-tuning_spark_image.jpg" alt="" class="wp-image-2419 entered lazyloaded" data-lazy-srcset="https://dataforgeeks.com/wp-content/uploads/2022/05/spark-1-tuning_spark_image.jpg 800w, https://dataforgeeks.com/wp-content/uploads/2022/05/spark-1-tuning_spark_image-300x152.jpg 300w, https://dataforgeeks.com/wp-content/uploads/2022/05/spark-1-tuning_spark_image-768x389.jpg 768w" data-lazy-sizes="(max-width: 800px) 100vw, 800px" data-lazy-src="https://dataforgeeks.com/wp-content/uploads/2022/05/spark-1-tuning_spark_image.jpg" data-ll-status="loaded" sizes="(max-width: 800px) 100vw, 800px" srcset="Apache%20Spark%20%E2%80%93%20Performance%20Tuning%20and%20Best%20Practices%20-%20DataForGeeks_files/spark-1-tuning_spark_image.jpg 800w, Apache%20Spark%20%E2%80%93%20Performance%20Tuning%20and%20Best%20Practices%20-%20DataForGeeks_files/spark-1-tuning_spark_image-300x152.jpg 300w, Apache%20Spark%20%E2%80%93%20Performance%20Tuning%20and%20Best%20Practices%20-%20DataForGeeks_files/spark-1-tuning_spark_image-768x389.jpg 768w"><noscript><img fetchpriority="high" decoding="async" width="800" height="405" src="https://dataforgeeks.com/wp-content/uploads/2022/05/spark-1-tuning_spark_image.jpg" alt="" class="wp-image-2419" srcset="https://dataforgeeks.com/wp-content/uploads/2022/05/spark-1-tuning_spark_image.jpg 800w, https://dataforgeeks.com/wp-content/uploads/2022/05/spark-1-tuning_spark_image-300x152.jpg 300w, https://dataforgeeks.com/wp-content/uploads/2022/05/spark-1-tuning_spark_image-768x389.jpg 768w" sizes="(max-width: 800px) 100vw, 800px" /></noscript></figure>
+
+
+
+<div id="ez-toc-container" class="ez-toc-v2_0_63 counter-hierarchy ez-toc-counter ez-toc-grey ez-toc-container-direction">
+<p class="ez-toc-title">Table of Contents</p>
+<label for="ez-toc-cssicon-toggle-item-662c88b448188" class="ez-toc-cssicon-toggle-label"><span class=""><span class="eztoc-hide" style="display:none;">Toggle</span><span class="ez-toc-icon-toggle-span"><svg style="fill: #999;color:#999" xmlns="http://www.w3.org/2000/svg" class="list-377408" width="20px" height="20px" viewBox="0 0 24 24" fill="none"><path d="M6 6H4v2h2V6zm14 0H8v2h12V6zM4 11h2v2H4v-2zm16 0H8v2h12v-2zM4 16h2v2H4v-2zm16 0H8v2h12v-2z" fill="currentColor"></path></svg><svg style="fill: #999;color:#999" class="arrow-unsorted-368013" xmlns="http://www.w3.org/2000/svg" width="10px" height="10px" viewBox="0 0 24 24" version="1.2" baseProfile="tiny"><path d="M18.2 9.3l-6.2-6.3-6.2 6.3c-.2.2-.3.4-.3.7s.1.5.3.7c.2.2.4.3.7.3h11c.3 0 .5-.1.7-.3.2-.2.3-.5.3-.7s-.1-.5-.3-.7zM5.8 14.7l6.2 6.3 6.2-6.3c.2-.2.3-.5.3-.7s-.1-.5-.3-.7c-.2-.2-.4-.3-.7-.3h-11c-.3 0-.5.1-.7.3-.2.2-.3.5-.3.7s.1.5.3.7z"></path></svg></span></span></label><input type="checkbox" id="ez-toc-cssicon-toggle-item-662c88b448188" aria-label="Toggle"><nav><ul class="ez-toc-list ez-toc-list-level-1 "><li class="ez-toc-page-1 ez-toc-heading-level-1"><a class="ez-toc-link ez-toc-heading-1" href="#Tweak_Configurations" title="Tweak Configurations">Tweak Configurations</a><ul class="ez-toc-list-level-2"><li class="ez-toc-heading-level-2"><a class="ez-toc-link ez-toc-heading-2" href="#Viewing_and_Setting_Apache_Spark_Configurations" title="Viewing and Setting Apache Spark Configurations">Viewing and Setting Apache Spark Configurations</a></li><li class="ez-toc-page-1 ez-toc-heading-level-2"><a class="ez-toc-link ez-toc-heading-3" href="#Configuration_changes" title="Configuration changes">Configuration changes</a><ul class="ez-toc-list-level-3"><li class="ez-toc-heading-level-3"><a class="ez-toc-link ez-toc-heading-4" href="#Static_vs_Dynamic_allocation" title="Static vs Dynamic allocation">Static vs Dynamic allocation</a></li><li class="ez-toc-page-1 ez-toc-heading-level-3"><a class="ez-toc-link ez-toc-heading-5" href="#Spark_Executor_memory" title="Spark Executor memory">Spark Executor memory</a></li><li class="ez-toc-page-1 ez-toc-heading-level-3"><a class="ez-toc-link ez-toc-heading-6" href="#Partition_size" title="Partition size">Partition size</a></li></ul></li></ul></li><li class="ez-toc-page-1 ez-toc-heading-level-1"><a class="ez-toc-link ez-toc-heading-7" href="#Minimise_Shuffle" title="Minimise Shuffle">Minimise Shuffle</a><ul class="ez-toc-list-level-2"><li class="ez-toc-heading-level-2"><a class="ez-toc-link ez-toc-heading-8" href="#Number_of_shuffle_partitions" title="Number of shuffle partitions">Number of shuffle partitions</a></li><li class="ez-toc-page-1 ez-toc-heading-level-2"><a class="ez-toc-link ez-toc-heading-9" href="#Shuffle_Service_internals" title="Shuffle Service internals">Shuffle Service internals</a></li><li class="ez-toc-page-1 ez-toc-heading-level-2"><a class="ez-toc-link ez-toc-heading-10" href="#Bucketing" title="Bucketing">Bucketing</a></li><li class="ez-toc-page-1 ez-toc-heading-level-2"><a class="ez-toc-link ez-toc-heading-11" href="#Optimise_Joins" title="Optimise Joins">Optimise Joins</a><ul class="ez-toc-list-level-3"><li class="ez-toc-heading-level-3"><a class="ez-toc-link ez-toc-heading-12" href="#Shuffle_Hash_join" title="Shuffle Hash join">Shuffle Hash join</a></li><li class="ez-toc-page-1 ez-toc-heading-level-3"><a class="ez-toc-link ez-toc-heading-13" href="#Broadcast_Hash_joins" title="Broadcast Hash joins">Broadcast Hash joins</a></li><li class="ez-toc-page-1 ez-toc-heading-level-3"><a class="ez-toc-link ez-toc-heading-14" href="#Shuffle_Sort_merge_join" title="Shuffle Sort merge join">Shuffle Sort merge join</a></li></ul></li></ul></li><li class="ez-toc-page-1 ez-toc-heading-level-1"><a class="ez-toc-link ez-toc-heading-15" href="#Tackle_Skew_Data" title="Tackle Skew Data">Tackle Skew Data</a><ul class="ez-toc-list-level-2"><li class="ez-toc-heading-level-2"><a class="ez-toc-link ez-toc-heading-16" href="#Salting" title="Salting">Salting</a></li><li class="ez-toc-page-1 ez-toc-heading-level-2"><a class="ez-toc-link ez-toc-heading-17" href="#Repartition" title="Repartition">Repartition</a></li><li class="ez-toc-page-1 ez-toc-heading-level-2"><a class="ez-toc-link ez-toc-heading-18" href="#AQE_Adaptive_Query_Execution" title="AQE (Adaptive Query Execution)">AQE (Adaptive Query Execution)</a></li><li class="ez-toc-page-1 ez-toc-heading-level-2"><a class="ez-toc-link ez-toc-heading-19" href="#Iterative_broadcast_join" title="Iterative broadcast join">Iterative broadcast join</a></li><li class="ez-toc-page-1 ez-toc-heading-level-2"><a class="ez-toc-link ez-toc-heading-20" href="#Skew_hint" title="Skew hint">Skew hint</a></li></ul></li><li class="ez-toc-page-1 ez-toc-heading-level-1"><a class="ez-toc-link ez-toc-heading-21" href="#Cache_properly" title="Cache properly">Cache properly</a><ul class="ez-toc-list-level-2"><li class="ez-toc-heading-level-2"><a class="ez-toc-link ez-toc-heading-22" href="#Caching" title="Caching">Caching</a></li><li class="ez-toc-page-1 ez-toc-heading-level-2"><a class="ez-toc-link ez-toc-heading-23" href="#Persistence" title="Persistence">Persistence</a></li></ul></li><li class="ez-toc-page-1 ez-toc-heading-level-1"><a class="ez-toc-link ez-toc-heading-24" href="#Best_Practices" title="Best Practices">Best Practices</a><ul class="ez-toc-list-level-2"><li class="ez-toc-heading-level-2"><a class="ez-toc-link ez-toc-heading-25" href="#Use_DataframeDataset_over_RDD" title="Use Dataframe/Dataset over RDD">Use Dataframe/Dataset over RDD</a></li><li class="ez-toc-page-1 ez-toc-heading-level-2"><a class="ez-toc-link ez-toc-heading-26" href="#Use_coalesce_over_repartition" title="Use coalesce() over repartition()">Use coalesce() over repartition()</a></li><li class="ez-toc-page-1 ez-toc-heading-level-2"><a class="ez-toc-link ez-toc-heading-27" href="#use_mapPartitions_over_map" title="use mapPartitions() over map()">use mapPartitions() over map()</a></li><li class="ez-toc-page-1 ez-toc-heading-level-2"><a class="ez-toc-link ez-toc-heading-28" href="#Avoid_UDFs" title="Avoid UDFs">Avoid UDFs</a></li><li class="ez-toc-page-1 ez-toc-heading-level-2"><a class="ez-toc-link ez-toc-heading-29" href="#Disable_unnecessary_DEBUG_and_INFO_logging" title="Disable unnecessary DEBUG and INFO logging">Disable unnecessary DEBUG and INFO logging</a></li><li class="ez-toc-page-1 ez-toc-heading-level-2"><a class="ez-toc-link ez-toc-heading-30" href="#Checkpointing" title="Checkpointing">Checkpointing</a></li><li class="ez-toc-page-1 ez-toc-heading-level-2"><a class="ez-toc-link ez-toc-heading-31" href="#Use_proper_file_formats" title="Use proper file formats">Use proper file formats</a></li><li class="ez-toc-page-1 ez-toc-heading-level-2"><a class="ez-toc-link ez-toc-heading-32" href="#use_toPandas_with_pyArrow" title="use toPandas() with pyArrow">use toPandas() with pyArrow</a></li></ul></li><li class="ez-toc-page-1 ez-toc-heading-level-1"><a class="ez-toc-link ez-toc-heading-33" href="#Takeaways" title="Takeaways">Takeaways</a></li><li class="ez-toc-page-1 ez-toc-heading-level-1"><a class="ez-toc-link ez-toc-heading-34" href="#References" title="References">References</a></li></ul></nav></div>
+<h1 class="wp-block-heading"><span class="ez-toc-section" id="Tweak_Configurations"></span>Tweak Configurations<span class="ez-toc-section-end"></span></h1>
+
+
+
+<h2 class="wp-block-heading"><span class="ez-toc-section" id="Viewing_and_Setting_Apache_Spark_Configurations"></span>Viewing and Setting Apache Spark Configurations<span class="ez-toc-section-end"></span></h2>
+
+
+
+<p><strong>4 ways of doing it :</strong></p>
+
+
+
+<ol><li><strong>Way-1:</strong><br>Using <strong>$SPARK_HOME directory</strong>
+ (Configuration changes in the conf/spark-defaults.conf file apply to 
+the Spark cluster and all Spark applications submitted to the cluster.):<br><em>conf/spark-defaults.conf.template</em><br><em>conf/log4j.properties.template</em><br><em>conf/spark-env.sh.template</em></li><li><strong>Way-2:</strong><br>Specify Spark configurations directly in your Spark application or on the command line when submitting the application with <strong>spark-submit, using the –conf flag</strong><br><br>Ex:
+ spark-submit –conf spark.sql.shuffle.partitions=5 –conf 
+“spark.executor.memory=2g” –class main.scala.chapter7.SparkConfig_7_1 
+jars/main-scala-chapter7_2.12-1.0.jar</li><li><strong>Way-3:</strong><br>The third option is through a <strong>programmatic interface via the Spark shell.</strong> Through the SparkSession object, you can access most Spark config settings.<br>Note: First check if the property is modifiable. <strong>spark.conf.isModifiable(“&lt;config_name&gt;”)</strong> will return true or false.<br><br>View only the Spark SQL–specific Spark configs ::<br># In Python<br>spark.sql(“SET -v”).select(“key”, “value”).show(n=5, truncate=False)<br>keyvaluespark.sql.adaptive.enabledfalsespark.sql.adaptive.nonEmptyPartitionRatioForBroadcastJoin0.2spark.sql.adaptive.shuffle.fetchShuffleBlocksInBatch.enabledtruespark.sql.adaptive.shuffle.localShuffleReader.enabledtruespark.sql.adaptive.shuffle.maxNumPostShufflePartitions&lt;undefined&gt;only
+ showing top 5 rows<br># In Python<br>&gt;&gt;&gt; spark.conf.get(“spark.sql.shuffle.partitions”)<br>‘200’<br>&gt;&gt;&gt; spark.conf.set(“spark.sql.shuffle.partitions”, 5)<br>&gt;&gt;&gt; spark.conf.get(“spark.sql.shuffle.partitions”)<br>‘5’<br>Precedence :<br>SparkSession &gt; spark-submit &gt; spark-defaules.conf</li><li><strong>Way-4</strong></li></ol>
+
+
+
+<p>Access Spark’s current configuration through the <strong>Spark UI’s Environment</strong></p>
+
+
+
+<div class="wp-block-image"><figure class="aligncenter size-large is-resized"><img decoding="async" src="Apache%20Spark%20%E2%80%93%20Performance%20Tuning%20and%20Best%20Practices%20-%20DataForGeeks_files/spark-2-spark-UI-1024x435.png" alt="" class="wp-image-2425 entered lazyloaded" width="920" height="388" title="Nikhil Aggarwal &gt; Spark Performance Tuning &gt; image2022-5-3_18-21-0.png" data-lazy-src="https://dataforgeeks.com/wp-content/uploads/2022/05/spark-2-spark-UI-1024x435.png" data-ll-status="loaded"><noscript><img decoding="async" src="https://dataforgeeks.com/wp-content/uploads/2022/05/spark-2-spark-UI-1024x435.png" alt="" class="wp-image-2425" width="920" height="388" title="Nikhil Aggarwal &gt; Spark Performance Tuning &gt; image2022-5-3_18-21-0.png"/></noscript></figure></div>
+
+
+
+<h2 class="wp-block-heading"><span class="ez-toc-section" id="Configuration_changes"></span>Configuration changes<span class="ez-toc-section-end"></span></h2>
+
+
+
+<h3 class="wp-block-heading"><span class="ez-toc-section" id="Static_vs_Dynamic_allocation"></span>Static vs Dynamic allocation<span class="ez-toc-section-end"></span></h3>
+
+
+
+<ul><li>Spark driver can request more or fewer compute resources as the demand of large workloads flows and ebbs</li><li>Enabling
+ dynamic resource allocation allows Spark to achieve better utilisation 
+of resources, freeing executors when not in use and acquiring new ones 
+when needed.</li><li>To enable and configure dynamic allocation, you can
+ use settings like the following. Note that the numbers here are 
+arbitrary; the appropriate settings will depend on the nature of your 
+workload and they should be adjusted accordingly.</li></ul>
+
+
+
+<p><em>spark.dynamicAllocation.enabled true</em><br><em>spark.dynamicAllocation.minExecutors 2</em><br><em>spark.dynamicAllocation.schedulerBacklogTimeout 1m</em><br><em>spark.dynamicAllocation.maxExecutors 20</em><br><em>spark.dynamicAllocation.executorIdleTimeout 2min</em></p>
+
+
+
+<p>By default <strong>spark.dynamicAllocation.enabled</strong> is set to
+ false. When enabled with the settings shown here, the Spark driver will
+ request that the cluster manager create two executors to start with, as
+ a minimum <strong>(spark.dynamicAllocation.minExecutors)</strong>. As the task queue backlog increases, new executors will be requested each time the backlog timeout (<strong>spark.dynamicAllocation.schedulerBacklogTimeout</strong>)
+ is exceeded. In this case, whenever there are pending tasks that have 
+not been scheduled for over 1 minute, the driver will request that a new
+ executor be launched to schedule backlogged tasks, up to a maximum of 
+20 (<strong>spark.dynamicAllocation.maxExecutors</strong>). By contrast, if an executor finishes a task and is idle for 2 minutes (<strong>spark.dynamicAllocation.executorIdleTimeout</strong>), the Spark driver will terminate it.</p>
+
+
+
+<h3 class="wp-block-heading"><span class="ez-toc-section" id="Spark_Executor_memory"></span>Spark Executor memory<span class="ez-toc-section-end"></span></h3>
+
+
+
+<p>The amount of memory available to each executor is controlled by <strong>spark.executor.memory</strong>. This is divided into three sections: <em>execution memory, storage memory, and reserved memory</em>. The default division is <strong>60% for execution memory</strong> and <strong>40% for storage</strong>, after allowing for <strong>300 MB for reserved memory</strong>, to safeguard against OOM errors.<br>Execution memory is used for Spark shuffles, joins, sorts, and aggregations.<br><strong>spark.memory.fraction is 0.6 by default</strong></p>
+
+
+
+<div class="wp-block-image"><figure class="aligncenter size-large is-resized"><img decoding="async" src="Apache%20Spark%20%E2%80%93%20Performance%20Tuning%20and%20Best%20Practices%20-%20DataForGeeks_files/spark-3-memory_split-1024x695.png" alt="" class="wp-image-2422 entered lazyloaded" width="555" height="372" title="Nikhil Aggarwal &gt; Spark Performance Tuning &gt; image2022-5-3_18-20-26.png" data-lazy-src="https://dataforgeeks.com/wp-content/uploads/2022/05/spark-3-memory_split-1024x695.png" data-ll-status="loaded"><noscript><img decoding="async" src="https://dataforgeeks.com/wp-content/uploads/2022/05/spark-3-memory_split-1024x695.png" alt="" class="wp-image-2422" width="555" height="372" title="Nikhil Aggarwal &gt; Spark Performance Tuning &gt; image2022-5-3_18-20-26.png"/></noscript></figure></div>
+
+
+
+<h3 class="wp-block-heading"><span class="ez-toc-section" id="Partition_size"></span>Partition size<span class="ez-toc-section-end"></span></h3>
+
+
+
+<p>Much of Spark’s efficiency is due to its ability to run multiple tasks in parallel at scale.</p>
+
+
+
+<p>To optimize resource utilization and maximize parallelism, the ideal is at least <strong>as many partitions as there are cores on the executor</strong></p><div style="width: 100%; height: auto; clear: both; text-align: center;" class="google-auto-placed ap_container"><ins style="display: block; margin: auto; background-color: transparent; height: 280px;" data-ad-format="auto" class="adsbygoogle adsbygoogle-noablate" data-ad-client="ca-pub-9040638560872555" data-adsbygoogle-status="done" data-ad-status="filled"><div id="aswift_2_host" style="border: medium; height: 280px; width: 987px; margin: 0px; padding: 0px; position: relative; visibility: visible; background-color: transparent; display: inline-block; overflow: visible;"><iframe id="aswift_2" name="aswift_2" style="left:0;position:absolute;top:0;border:0;width:987px;height:280px;" sandbox="allow-forms allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts allow-top-navigation-by-user-activation" width="987" height="280" frameborder="0" marginwidth="0" marginheight="0" vspace="0" hspace="0" allowtransparency="true" scrolling="no" src="Apache%20Spark%20%E2%80%93%20Performance%20Tuning%20and%20Best%20Practices%20-%20DataForGeeks_files/ads.html" data-google-container-id="a!3" tabindex="0" title="Advertisement" aria-label="Advertisement" data-google-query-id="CJz00Pnd4YUDFUSzJwId5X4ASw" data-load-complete="true"></iframe></div></ins></div>
+
+
+
+<p>The size of a partition in Spark is dictated by <strong>spark.sql.files.maxPartitionBytes</strong>. <strong>The default is 128 MB</strong>. You can decrease the size, but that may result in what’s known as the “<em><strong>small file problem</strong></em>”—
+many small partition files, introducing an inordinate amount of disk I/O
+ and performance degradation thanks to filesystem operations such as 
+opening, closing, and listing directories, which on a distributed 
+filesystem can be slow.</p>
+
+
+
+<h1 class="wp-block-heading"><span class="ez-toc-section" id="Minimise_Shuffle"></span>Minimise Shuffle<span class="ez-toc-section-end"></span></h1>
+
+
+
+<p>Spark Shuffle is an expensive operation since it involves the following</p>
+
+
+
+<ul><li>Disk I/O</li><li>Involves data serialization and deserialization</li><li>Network I/O</li></ul>
+
+
+
+<p>We cannot completely avoid shuffle operations but when possible try 
+to reduce the number of shuffle operations by removing any unused 
+operations.</p>
+
+
+
+<div class="wp-block-image"><figure class="aligncenter size-large is-resized"><img decoding="async" src="Apache%20Spark%20%E2%80%93%20Performance%20Tuning%20and%20Best%20Practices%20-%20DataForGeeks_files/spark-4-shuffle-1024x519.png" alt="" class="wp-image-2409 entered lazyloaded" width="612" height="308" data-lazy-src="https://dataforgeeks.com/wp-content/uploads/2022/05/spark-4-shuffle-1024x519.png" data-ll-status="loaded"><noscript><img decoding="async" src="https://dataforgeeks.com/wp-content/uploads/2022/05/spark-4-shuffle-1024x519.png" alt="" class="wp-image-2409" width="612" height="308"/></noscript></figure></div>
+
+
+
+<h2 class="wp-block-heading"><span class="ez-toc-section" id="Number_of_shuffle_partitions"></span>Number of shuffle partitions<span class="ez-toc-section-end"></span></h2>
+
+
+
+<p>Shuffle partitions are created during the shuffle stage. By default, the number of shuffle partitions is set to 200 in <strong>spark.sql.shuffle.partitions</strong>.
+ You can adjust this number depending on the size of the data set you 
+have, to reduce the amount of small partitions being sent across the 
+network to executors’ tasks.</p>
+
+
+
+<p>Created during operations like groupBy() or join(), also known as 
+wide transformations, shuffle partitions consume both network and disk 
+I/O resources. During these operations, the shuffle will spill results 
+to executors’ local disks at the location specified in <strong>spark.local.directory</strong>. Having performant SSD disks for this operation will boost the performance.</p>
+
+
+
+<h2 class="wp-block-heading"><span class="ez-toc-section" id="Shuffle_Service_internals"></span>Shuffle Service internals<span class="ez-toc-section-end"></span></h2>
+
+
+
+<p>During map and shuffle operations, Spark writes to and reads from the
+ local disk’s shuffle files, so there is heavy I/O activity. This can 
+result in a bottleneck, because the <strong>default configurations are suboptimal for large-scale Spark jobs</strong>. Knowing what configurations to tweak can mitigate this risk during this phase of a Spark job.</p>
+
+
+
+<figure class="wp-block-table"><table><tbody><tr><th>Configuration</th><th>Default Value, recommendation and description</th></tr><tr><td><strong>spark.driver.memory</strong></td><td>Default
+ is 1g (1 GB). This is the amount of memory allocated to the Spark 
+driver to receive data from executors. This is often changed during 
+spark-submit with –driver-memory.Only change this if you expect the 
+driver to receive large amounts of data back from operations like 
+collect(), or if you run out of driver memory.</td></tr><tr><td><strong>spark.shuffle.file.buffer</strong></td><td>Default is 32 KB. Recommended is 1 MB. This allows Spark to do more buffering before writing final map results to disk.</td></tr><tr><td><strong>spark.file.transferTo</strong></td><td>Default
+ is true. Setting it to false will force Spark to use the file buffer to
+ transfer files before finally writing to disk; this will decrease the 
+I/O activity.</td></tr><tr><td>spark.shuffle.unsafe.file.output.buffer</td><td>Default
+ is 32 KB. This controls the amount of buffering possible when merging 
+files during shuffle operations. In general, large values (e.g., 1 MB) 
+are more appropriate for larger workloads, whereas the default can work 
+for smaller workloads.</td></tr><tr><td><a href="http://spark.io/">spark.io</a>.compression.lz4.blockSize</td><td>Default
+ is 32 KB. Increase to 512 KB. You can decrease the size of the shuffle 
+file by increasing the compressed size of the block.</td></tr><tr><td>spark.shuffle.service.​index.cache.size</td><td>Default is 100m. Cache entries are limited to the specified memory footprint in byte.</td></tr><tr><td>spark.shuffle.registration.​timeout</td><td>Default is 5000 ms. Increase to 120000 ms.</td></tr><tr><td>spark.shuffle.registration.maxAttempts</td><td>Default is 3. Increase to 5 if needed.</td></tr></tbody></table></figure>
+
+
+
+<h2 class="wp-block-heading"><span class="ez-toc-section" id="Bucketing"></span>Bucketing<span class="ez-toc-section-end"></span></h2>
+
+
+
+<ol><li>Bucketing is another data organisation technique that groups data with the same bucket value.&nbsp;</li><li>Bucketing boosts performance by already sorting and shuffling data before performing sort-merge joins.</li><li>The information about bucketing is stored in the metastore</li><li>vs Partition:<ol><li>Bucketing
+ distributes data across a fixed number of buckets by a hash on the 
+bucket value; whereas, partitioning creates a directory for each 
+partition.&nbsp;</li><li>Bucketing works well when the number of unique 
+values is large; whereas, partitioning should only be used with columns 
+that have a limited number of values.</li><li>Bucketing might be used with or without partitioning.</li></ol></li><li><em><strong>Columns that are commonly used in aggregations and joins as keys are suitable candidates for bucketing.</strong></em> In a general manner, <em>joins</em>, <em>groupBy</em>, <em>distinct</em> transformations are benefited from bucketing.<br>df = df.bucketBy(32, ‘key’).sortBy(‘value’)</li><li>It is important the have the same number of buckets on both sides of the tables in the join.</li></ol>
+
+
+
+<h2 class="wp-block-heading"><span class="ez-toc-section" id="Optimise_Joins"></span>Optimise Joins<span class="ez-toc-section-end"></span></h2>
+
+
+
+<ul><li>Joins are one of the fundamental operation when developing a 
+spark job. So, it is worth knowing about the optimizations before 
+working with joins.</li><li>Spark approaches two types of cluster communication Strategy:<ul><li>node-node communication strategy → Spark shuffles the data across the clusters</li><li>per-node communication strategy → Spark perform broadcast joins</li></ul></li></ul>
+
+
+
+<h3 class="wp-block-heading"><span class="ez-toc-section" id="Shuffle_Hash_join"></span>Shuffle Hash join<span class="ez-toc-section-end"></span></h3>
+
+
+
+<ul><li>works based on the concept of map reduce</li><li><strong>Map 
+through the data frames and use the values of the join column as output 
+key. Shuffles the data frames based on the output keys and join the data
+ frames in the reduce phase as the rows from the different data frame 
+with the same keys will ended up in the same machine.</strong></li><li>Spark chooses Shuffle Hash join when Sort merge join is turned off or if the key is not suitable</li><li><strong>Creating hash tables are costly</strong> and it can be only done when the average size of a single partition is small enough to build a hash table.</li><li><strong>Note</strong>:
+ Sort merge join is a very good candidate in most of times as it can 
+spill the data to the disk and doesn’t need to hold the data in memory 
+like its counterpart Shuffle Hash join. However, <strong>when the build size is smaller than the stream size Shuffle Hash join will outperform Sort Merge join</strong>.</li><li>To accomplish ideal performance:<ul><li><em>The DataFrame should be distributed evenly on the joining columns.</em></li></ul><ul><li><em>To leverage parallelism the DataFrame should have an adequate number of unique keys.</em></li></ul></li><li><strong>Tips</strong>:
+ During joins if there are rows which are irrelevant to the key, filter 
+the rows before the join. Otherwise, there will be more data shuffle 
+over the network.</li></ul>
+
+
+
+<h3 class="wp-block-heading"><span class="ez-toc-section" id="Broadcast_Hash_joins"></span>Broadcast Hash joins<span class="ez-toc-section-end"></span></h3>
+
+
+
+<ul><li>Per-node communication strategy.</li><li>Yield the maximum performance in spark.</li><li>it is relevant only for little datasets.</li><li>The
+ smaller table will be broadcasted to all worker nodes. Thus, when 
+working with one large table and another smaller table always makes sure
+ to broadcast the smaller table.</li><li>Recently Spark has increased 
+the maximum size for the broadcast table from 2GB to 8GB. Thus, it is 
+not possible to broadcast tables which are greater than 8GB.</li><li>Spark
+ also internally maintains a threshold of the table size to 
+automatically apply broadcast joins. The threshold can be configured 
+using “<strong>spark.sql.autoBroadcastJoinThreshold</strong>” which is by <strong>default 10MB</strong>.</li><li>We can hint spark to broadcast a table as below:import org.apache.spark.sql.functions.broadcast<br>val dataframe = largedataframe.join(broadcast(smalldataframe), “key”)<ul><li><img decoding="async" width="800" height="331" class="wp-image-2410" style="width: 800px;" src="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20800%20331'%3E%3C/svg%3E" alt="" data-lazy-srcset="https://dataforgeeks.com/wp-content/uploads/2022/05/spark-5-broadcast-hash-join.png 1400w, https://dataforgeeks.com/wp-content/uploads/2022/05/spark-5-broadcast-hash-join-300x124.png 300w, https://dataforgeeks.com/wp-content/uploads/2022/05/spark-5-broadcast-hash-join-1024x424.png 1024w, https://dataforgeeks.com/wp-content/uploads/2022/05/spark-5-broadcast-hash-join-768x318.png 768w" data-lazy-sizes="(max-width: 800px) 100vw, 800px" data-lazy-src="https://dataforgeeks.com/wp-content/uploads/2022/05/spark-5-broadcast-hash-join.png"><noscript><img decoding="async" width="800" height="331" class="wp-image-2410" style="width: 800px;" src="https://dataforgeeks.com/wp-content/uploads/2022/05/spark-5-broadcast-hash-join.png" alt="" srcset="https://dataforgeeks.com/wp-content/uploads/2022/05/spark-5-broadcast-hash-join.png 1400w, https://dataforgeeks.com/wp-content/uploads/2022/05/spark-5-broadcast-hash-join-300x124.png 300w, https://dataforgeeks.com/wp-content/uploads/2022/05/spark-5-broadcast-hash-join-1024x424.png 1024w, https://dataforgeeks.com/wp-content/uploads/2022/05/spark-5-broadcast-hash-join-768x318.png 768w" sizes="(max-width: 800px) 100vw, 800px" /></noscript></li></ul></li></ul>
+
+
+
+<h3 class="wp-block-heading"><span class="ez-toc-section" id="Shuffle_Sort_merge_join"></span>Shuffle Sort merge join<span class="ez-toc-section-end"></span></h3>
+
+
+
+<ul><li><strong>Default join algorithm in spark</strong><ul><li>However, this can be turned down by using the internal parameter ‘<strong>spark.sql.join.preferSortMergeJoin</strong>’ which by <strong>default is true</strong></li></ul></li><li>Composed of 2 steps:<ul><li>The first step is to sort the datasets and,</li></ul><ul><li>Second
+ operation is to merge the sorted data in the partition by iterating 
+over the elements and according to the join key join the rows having the
+ same value.</li></ul></li><li><strong>To accomplish ideal performance in Sort Merge Join:</strong><ul><li><em>Make
+ sure the partitions have been co-located. Otherwise, there will be 
+shuffle operations to co-locate the data as it has a pre-requirement 
+that all rows having the same value for the join key should be stored in
+ the same partition.</em></li></ul><ul><li>The DataFrame should be distributed uniformly on the joining columns.</li></ul><ul><li>To leverage parallelism the DataFrame should have an adequate number of unique keys</li></ul></li></ul>
+
+
+
+<h1 class="wp-block-heading"><span class="ez-toc-section" id="Tackle_Skew_Data"></span>Tackle Skew Data<span class="ez-toc-section-end"></span></h1>
+
+
+
+<p>When one partition has more data to process as compared to others it 
+result into performance bottleneck due to this uneven distribution of 
+data.</p>
+
+
+
+<p>If the data is highly&nbsp;<em>skewed</em>, it might even cause a spill of the data from memory to disk.</p>
+
+
+
+<p><strong>Detection</strong>:</p>
+
+
+
+<ol><li>To observe the distribution of data among partitions,&nbsp;<em>glom&nbsp;</em>function might be used.</li><li>Additionally,
+ uneven distribution of data might be also detected with the help of 
+task execution time and tasks’ processed data volume information 
+screened in the&nbsp;<em>executor&nbsp;</em>page of Spark UI.</li></ol>
+
+
+
+<p><em>partition_number = df.rdd.getNumPartitions()<br>data_distribution = df.rdd.glom().map(len).collect()</em></p>
+
+
+
+<p>Spark 3.0 version comes with a nice feature&nbsp;<a href="https://docs.databricks.com/spark/latest/spark-sql/aqe.html">Adaptive Query Execution</a>&nbsp;which automatically balances out the skewness across the partitions</p><div style="width: 100%; height: auto; clear: both; text-align: center;" class="google-auto-placed ap_container"><ins style="display: block; margin: auto; background-color: transparent; height: 280px;" data-ad-format="auto" class="adsbygoogle adsbygoogle-noablate" data-ad-client="ca-pub-9040638560872555" data-adsbygoogle-status="done"><div id="aswift_3_host" style="border: medium; height: 280px; width: 987px; margin: 0px; padding: 0px; position: relative; visibility: visible; background-color: transparent; display: inline-block;"></div></ins></div>
+
+
+
+<p>Two separate workarounds come forward to tackle&nbsp;skew&nbsp;in the
+ data distribution among the partitions 
+—&nbsp;salting&nbsp;and&nbsp;repartition.</p>
+
+
+
+<h2 class="wp-block-heading"><span class="ez-toc-section" id="Salting"></span>Salting<span class="ez-toc-section-end"></span></h2>
+
+
+
+<p>It means adding randomization to the data to help it to be distributed more uniformly.</p>
+
+
+
+<p>An extra processing cost is paid in return for evenly distributed data across the partitions, and so performance gains.</p>
+
+
+
+<p><strong>S<em>alting</em>&nbsp;technique is applied only to the skewed key</strong></p>
+
+
+
+<p>random values are added to the key. Then,&nbsp;<em>&lt;key1+random_salting_value&gt;</em>&nbsp;is
+ obtained, and this created new key values are matched with the 
+replicated corresponding key values in the other table if it is a join 
+operation.</p>
+
+
+
+<p>For Example: take a look at the following example where the key 
+column is city information in join, and the distribution of the key 
+column is highly skewed in tables. To distribute the data evenly, we 
+append random values from 1 to 5 to the end of key values for the bigger
+ table of join and compose a new column in the smaller table by 
+exploding an array from 1 to 5.</p>
+
+
+
+<div class="wp-block-image"><figure class="aligncenter size-full"><img decoding="async" width="940" height="266" src="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20940%20266'%3E%3C/svg%3E" alt="" class="wp-image-2411" data-lazy-srcset="https://dataforgeeks.com/wp-content/uploads/2022/05/spark-6-salting.png 940w, https://dataforgeeks.com/wp-content/uploads/2022/05/spark-6-salting-300x85.png 300w, https://dataforgeeks.com/wp-content/uploads/2022/05/spark-6-salting-768x217.png 768w" data-lazy-sizes="(max-width: 940px) 100vw, 940px" data-lazy-src="https://dataforgeeks.com/wp-content/uploads/2022/05/spark-6-salting.png"><noscript><img decoding="async" width="940" height="266" src="https://dataforgeeks.com/wp-content/uploads/2022/05/spark-6-salting.png" alt="" class="wp-image-2411" srcset="https://dataforgeeks.com/wp-content/uploads/2022/05/spark-6-salting.png 940w, https://dataforgeeks.com/wp-content/uploads/2022/05/spark-6-salting-300x85.png 300w, https://dataforgeeks.com/wp-content/uploads/2022/05/spark-6-salting-768x217.png 768w" sizes="(max-width: 940px) 100vw, 940px" /></noscript></figure></div>
+
+
+
+<h2 class="wp-block-heading"><span class="ez-toc-section" id="Repartition"></span>Repartition<span class="ez-toc-section-end"></span></h2>
+
+
+
+<p><em>Repartition&nbsp;</em>does a full shuffle, creates new partitions, and increases the level of parallelism in the application.&nbsp;</p>
+
+
+
+<p>More partitions will help to deal with the data skewness problem with
+ an extra cost that is a shuffling of full data as mentioned above. 
+However adding one shuffle to the query plan might eliminate two other 
+shuffles, and speed up the running</p><div style="width: 100%; height: auto; clear: both; text-align: center;" class="google-auto-placed ap_container"><ins style="display: block; margin: auto; background-color: transparent; height: 280px;" data-ad-format="auto" class="adsbygoogle adsbygoogle-noablate" data-ad-client="ca-pub-9040638560872555" data-adsbygoogle-status="done"><div id="aswift_4_host" style="border: medium; height: 280px; width: 987px; margin: 0px; padding: 0px; position: relative; visibility: visible; background-color: transparent; display: inline-block;"></div></ins></div>
+
+
+
+<p>Apart from data skew, I highly recommend taking a look at&nbsp;<a href="https://towardsdatascience.com/should-i-repartition-836f7842298c">this post</a>, which gives examples about the usage of&nbsp;<em>repartition&nbsp;</em>efficiently with use cases and explains the details under the hood.</p>
+
+
+
+<h2 class="wp-block-heading"><span class="ez-toc-section" id="AQE_Adaptive_Query_Execution"></span>AQE (Adaptive Query Execution)<span class="ez-toc-section-end"></span></h2>
+
+
+
+<p>Adaptive Query Execution is an enhancement enabling Spark 3 to alter 
+physical execution plans at runtime, which allows improvements on the 
+physical implementation based on statistics collected after shuffle 
+exchange operations.</p>
+
+
+
+<p>Level of parallelism and join implementation strategy have been shown
+ to be key factors for query performance on large clusters. According to
+ this premise, new optimisation rules have been built on top of the AQE 
+feature:</p>
+
+
+
+<ol><li>dynamically coalescing shuffle partitions by eventually merging small adjacent ones.</li><li>dynamically replacing a Sort-Merge join for a Broadcast-Hash join when size conditions are met on any side.</li><li>dynamically optimising skew joins by eventually scheduling multiple reduce tasks to work on a single huge partition.</li></ol>
+
+
+
+<p>Set following 3 parameters :&nbsp;</p>
+
+
+
+<p>spark.conf.set(“spark.sql.adaptive.enabled”, true)<br>spark.conf.set(“spark.sql.adaptive.skewedJoin.enabled”, true)<br>spark.conf.set(“spark.sql.adaptive.advisoryPartitionSizeInBytes”, “128m”)</p>
+
+
+
+<h2 class="wp-block-heading"><span class="ez-toc-section" id="Iterative_broadcast_join"></span>Iterative broadcast join<span class="ez-toc-section-end"></span></h2>
+
+
+
+<p>Split one of the table into multiple small parts and broadcast it on 
+all executors sequentially to join with skewed table. Combine result at 
+the end.</p>
+
+
+
+<h2 class="wp-block-heading"><span class="ez-toc-section" id="Skew_hint"></span>Skew hint<span class="ez-toc-section-end"></span></h2>
+
+
+
+<p>When you perform a&nbsp;<code>join</code>&nbsp;command with&nbsp;<code>DataFrame</code>&nbsp;or&nbsp;<code>Dataset</code>&nbsp;objects, if you find that the query is stuck on finishing a small number of tasks due to&nbsp;<a href="https://en.wikipedia.org/wiki/Skewness" target="_blank" rel="noreferrer noopener">data skew</a>, you can specify the skew hint with the&nbsp;<code>hint("skew")</code>&nbsp;method:&nbsp;<code>df.hint("skew")</code>. The&nbsp;<a href="https://docs.databricks.com/delta/join-performance/skew-join.html" target="_blank" rel="noreferrer noopener">skew join optimization</a>&nbsp;is performed on the&nbsp;<code>DataFrame</code>&nbsp;for which you specify the&nbsp;<code>skew</code>&nbsp;hint.</p>
+
+
+
+<p>In addition to the basic hint, you can specify the&nbsp;<code>hint</code>&nbsp;method with the following combinations of parameters: column name, list of column names, and column name and skew value.</p>
+
+
+
+<div class="enlighter-default enlighter-v-standard enlighter-t-enlighter enlighter-l-python enlighter-hover enlighter-linenumbers "><div class="enlighter-toolbar-top enlighter-toolbar"><div class="enlighter-btn enlighter-btn-raw"><div class="enlighter-tooltip">Plain text</div></div><div class="enlighter-btn enlighter-btn-copy"><div class="enlighter-tooltip">Copy to clipboard</div></div><div class="enlighter-btn enlighter-btn-window"><div class="enlighter-tooltip">Open code in new window</div></div><div class="enlighter-btn enlighter-btn-website"><div class="enlighter-tooltip">EnlighterJS 3 Syntax Highlighter</div></div></div><div class="enlighter-code"><div class="enlighter" style=""><div class=""><div><span class="enlighter-c0">#DataFrame and column name.</span><span class="enlighter-text"></span></div></div><div class=""><div><span class="enlighter-text">df.</span><span class="enlighter-m1">hint</span><span class="enlighter-g1">(</span><span class="enlighter-s0">"skew"</span><span class="enlighter-text">, </span><span class="enlighter-s0">"col1"</span><span class="enlighter-g1">)</span><span class="enlighter-text"></span></div></div><div class=""><div><span class="enlighter-text"></span></div></div><div class=""><div><span class="enlighter-text"></span><span class="enlighter-c0">#DataFrame and multiple columns.</span><span class="enlighter-text"></span></div></div><div class=""><div><span class="enlighter-text">df.</span><span class="enlighter-m1">hint</span><span class="enlighter-g1">(</span><span class="enlighter-s0">"skew"</span><span class="enlighter-text">, </span><span class="enlighter-g1">[</span><span class="enlighter-s0">"col1"</span><span class="enlighter-text">,</span><span class="enlighter-s0">"col2"</span><span class="enlighter-g1">])</span><span class="enlighter-text"></span></div></div><div class=""><div><span class="enlighter-text"></span></div></div><div class=""><div><span class="enlighter-text"></span><span class="enlighter-c0">#DataFrame, column name, and skew value.</span><span class="enlighter-text"></span></div></div><div class=""><div><span class="enlighter-text">df.</span><span class="enlighter-m1">hint</span><span class="enlighter-g1">(</span><span class="enlighter-s0">"skew"</span><span class="enlighter-text">, </span><span class="enlighter-s0">"col1"</span><span class="enlighter-text">, </span><span class="enlighter-s0">"value"</span><span class="enlighter-g1">)</span></div></div></div><div class="enlighter-raw">#DataFrame and column name.
+df.hint("skew", "col1")
+
+#DataFrame and multiple columns.
+df.hint("skew", ["col1","col2"])
+
+#DataFrame, column name, and skew value.
+df.hint("skew", "col1", "value")</div></div><div class="enlighter-toolbar-bottom enlighter-toolbar"></div></div><pre class="EnlighterJSRAW enlighter-origin" data-enlighter-language="python" data-enlighter-theme="" data-enlighter-highlight="" data-enlighter-linenumbers="" data-enlighter-lineoffset="" data-enlighter-title="" data-enlighter-group="">#DataFrame and column name.
+df.hint("skew", "col1")
+
+#DataFrame and multiple columns.
+df.hint("skew", ["col1","col2"])
+
+#DataFrame, column name, and skew value.
+df.hint("skew", "col1", "value")</pre>
+
+
+
+<h1 class="wp-block-heading"><span class="ez-toc-section" id="Cache_properly"></span>Cache properly<span class="ez-toc-section-end"></span></h1>
+
+
+
+<p>To take full advantage of lazy evaluation functionality, it is very wise to&nbsp;<strong>store expensive intermediate results</strong>&nbsp;if
+ several operations use them downstream of the DAG. Indeed, if an action
+ is run, its computation can be based on these intermediate results and 
+thus only replay a sub-part of the DAG before this action.</p>
+
+
+
+<p>Let’s take the following DAG as an example:</p>
+
+
+
+<figure class="wp-block-image size-large is-resized"><img decoding="async" src="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20576%20117'%3E%3C/svg%3E" alt="" class="wp-image-2412" width="576" height="117" data-lazy-srcset="https://dataforgeeks.com/wp-content/uploads/2022/05/spark-7-DAG-1-1024x208.png 1024w, https://dataforgeeks.com/wp-content/uploads/2022/05/spark-7-DAG-1-300x61.png 300w, https://dataforgeeks.com/wp-content/uploads/2022/05/spark-7-DAG-1-768x156.png 768w, https://dataforgeeks.com/wp-content/uploads/2022/05/spark-7-DAG-1.png 1400w" data-lazy-sizes="(max-width: 576px) 100vw, 576px" data-lazy-src="https://dataforgeeks.com/wp-content/uploads/2022/05/spark-7-DAG-1-1024x208.png"><noscript><img decoding="async" src="https://dataforgeeks.com/wp-content/uploads/2022/05/spark-7-DAG-1-1024x208.png" alt="" class="wp-image-2412" width="576" height="117" srcset="https://dataforgeeks.com/wp-content/uploads/2022/05/spark-7-DAG-1-1024x208.png 1024w, https://dataforgeeks.com/wp-content/uploads/2022/05/spark-7-DAG-1-300x61.png 300w, https://dataforgeeks.com/wp-content/uploads/2022/05/spark-7-DAG-1-768x156.png 768w, https://dataforgeeks.com/wp-content/uploads/2022/05/spark-7-DAG-1.png 1400w" sizes="(max-width: 576px) 100vw, 576px" /></noscript></figure>
+
+
+
+<p>To obtain the results of the two actions, the treatments are described in the two DAGs below.</p>
+
+
+
+<figure class="wp-block-image size-large is-resized"><img decoding="async" src="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20610%20109'%3E%3C/svg%3E" alt="" class="wp-image-2413" width="610" height="109" data-lazy-srcset="https://dataforgeeks.com/wp-content/uploads/2022/05/spark-8-DAG-2-1024x183.png 1024w, https://dataforgeeks.com/wp-content/uploads/2022/05/spark-8-DAG-2-300x54.png 300w, https://dataforgeeks.com/wp-content/uploads/2022/05/spark-8-DAG-2-768x137.png 768w, https://dataforgeeks.com/wp-content/uploads/2022/05/spark-8-DAG-2.png 1400w" data-lazy-sizes="(max-width: 610px) 100vw, 610px" data-lazy-src="https://dataforgeeks.com/wp-content/uploads/2022/05/spark-8-DAG-2-1024x183.png"><noscript><img decoding="async" src="https://dataforgeeks.com/wp-content/uploads/2022/05/spark-8-DAG-2-1024x183.png" alt="" class="wp-image-2413" width="610" height="109" srcset="https://dataforgeeks.com/wp-content/uploads/2022/05/spark-8-DAG-2-1024x183.png 1024w, https://dataforgeeks.com/wp-content/uploads/2022/05/spark-8-DAG-2-300x54.png 300w, https://dataforgeeks.com/wp-content/uploads/2022/05/spark-8-DAG-2-768x137.png 768w, https://dataforgeeks.com/wp-content/uploads/2022/05/spark-8-DAG-2.png 1400w" sizes="(max-width: 610px) 100vw, 610px" /></noscript></figure>
+
+
+
+<p>In order to speed up the execution, one can decide to cache intermediate results (e.g. the result of a join).</p>
+
+
+
+<figure class="wp-block-image size-large is-resized"><img decoding="async" src="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20619%20136'%3E%3C/svg%3E" alt="" class="wp-image-2415" width="619" height="136" data-lazy-srcset="https://dataforgeeks.com/wp-content/uploads/2022/05/spark-10-DAG-4-1024x225.png 1024w, https://dataforgeeks.com/wp-content/uploads/2022/05/spark-10-DAG-4-300x66.png 300w, https://dataforgeeks.com/wp-content/uploads/2022/05/spark-10-DAG-4-768x168.png 768w, https://dataforgeeks.com/wp-content/uploads/2022/05/spark-10-DAG-4.png 1400w" data-lazy-sizes="(max-width: 619px) 100vw, 619px" data-lazy-src="https://dataforgeeks.com/wp-content/uploads/2022/05/spark-10-DAG-4-1024x225.png"><noscript><img decoding="async" src="https://dataforgeeks.com/wp-content/uploads/2022/05/spark-10-DAG-4-1024x225.png" alt="" class="wp-image-2415" width="619" height="136" srcset="https://dataforgeeks.com/wp-content/uploads/2022/05/spark-10-DAG-4-1024x225.png 1024w, https://dataforgeeks.com/wp-content/uploads/2022/05/spark-10-DAG-4-300x66.png 300w, https://dataforgeeks.com/wp-content/uploads/2022/05/spark-10-DAG-4-768x168.png 768w, https://dataforgeeks.com/wp-content/uploads/2022/05/spark-10-DAG-4.png 1400w" sizes="(max-width: 619px) 100vw, 619px" /></noscript></figure>
+
+
+
+<p>The processing of the second action is now simplified. Note that 
+during the first action the results have not yet been stored in memory.</p>
+
+
+
+<figure class="wp-block-image size-large is-resized"><img decoding="async" src="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20651%20131'%3E%3C/svg%3E" alt="" class="wp-image-2414" width="651" height="131" data-lazy-srcset="https://dataforgeeks.com/wp-content/uploads/2022/05/spark-9-DAG-3-1024x206.png 1024w, https://dataforgeeks.com/wp-content/uploads/2022/05/spark-9-DAG-3-300x60.png 300w, https://dataforgeeks.com/wp-content/uploads/2022/05/spark-9-DAG-3-768x155.png 768w, https://dataforgeeks.com/wp-content/uploads/2022/05/spark-9-DAG-3.png 1400w" data-lazy-sizes="(max-width: 651px) 100vw, 651px" data-lazy-src="https://dataforgeeks.com/wp-content/uploads/2022/05/spark-9-DAG-3-1024x206.png"><noscript><img decoding="async" src="https://dataforgeeks.com/wp-content/uploads/2022/05/spark-9-DAG-3-1024x206.png" alt="" class="wp-image-2414" width="651" height="131" srcset="https://dataforgeeks.com/wp-content/uploads/2022/05/spark-9-DAG-3-1024x206.png 1024w, https://dataforgeeks.com/wp-content/uploads/2022/05/spark-9-DAG-3-300x60.png 300w, https://dataforgeeks.com/wp-content/uploads/2022/05/spark-9-DAG-3-768x155.png 768w, https://dataforgeeks.com/wp-content/uploads/2022/05/spark-9-DAG-3.png 1400w" sizes="(max-width: 651px) 100vw, 651px" /></noscript></figure>
+
+
+
+<p>If this caching can speed up execution of a job, we pay a&nbsp;<strong>cost when these results are written to memory and/or disk</strong>.
+ It should be tested at different locations in the processing pipeline 
+whether the total time saving outweighs the cost. This is especially 
+relevant when there are several paths on the DAG.</p>
+
+
+
+<div class="wp-block-image"><figure class="aligncenter size-large is-resized"><img decoding="async" src="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20741%20286'%3E%3C/svg%3E" alt="" class="wp-image-2416" width="741" height="286" data-lazy-srcset="https://dataforgeeks.com/wp-content/uploads/2022/05/spark-11-Caching-1024x396.jpeg 1024w, https://dataforgeeks.com/wp-content/uploads/2022/05/spark-11-Caching-300x116.jpeg 300w, https://dataforgeeks.com/wp-content/uploads/2022/05/spark-11-Caching-768x297.jpeg 768w, https://dataforgeeks.com/wp-content/uploads/2022/05/spark-11-Caching.jpeg 1254w" data-lazy-sizes="(max-width: 741px) 100vw, 741px" data-lazy-src="https://dataforgeeks.com/wp-content/uploads/2022/05/spark-11-Caching-1024x396.jpeg"><noscript><img decoding="async" src="https://dataforgeeks.com/wp-content/uploads/2022/05/spark-11-Caching-1024x396.jpeg" alt="" class="wp-image-2416" width="741" height="286" srcset="https://dataforgeeks.com/wp-content/uploads/2022/05/spark-11-Caching-1024x396.jpeg 1024w, https://dataforgeeks.com/wp-content/uploads/2022/05/spark-11-Caching-300x116.jpeg 300w, https://dataforgeeks.com/wp-content/uploads/2022/05/spark-11-Caching-768x297.jpeg 768w, https://dataforgeeks.com/wp-content/uploads/2022/05/spark-11-Caching.jpeg 1254w" sizes="(max-width: 741px) 100vw, 741px" /></noscript></figure></div>
+
+
+
+<h2 class="wp-block-heading"><span class="ez-toc-section" id="Caching"></span>Caching<span class="ez-toc-section-end"></span></h2>
+
+
+
+<p>cache() will store as many of the partitions read in memory across Spark executors as memory allows.</p>
+
+
+
+<p>While a DataFrame may be fractionally cached, partitions cannot be 
+fractionally cached (e.g., if you have 8 partitions but only 4.5 
+partitions can fit in memory, only 4 will be cached). However, if not 
+all your partitions are cached, when you want to access the data again, 
+the partitions that are not cached will have to be recomputed, slowing 
+down your Spark job.</p>
+
+
+
+<h2 class="wp-block-heading"><span class="ez-toc-section" id="Persistence"></span>Persistence<span class="ez-toc-section-end"></span></h2>
+
+
+
+<p>Persist(StorageLevel.LEVEL) is nuanced, providing control over how your data is cached via StorageLevel</p>
+
+
+
+<figure class="wp-block-table"><table><tbody><tr><th>StorageLevel</th><th>Description</th></tr><tr><td>MEMORY_ONLY</td><td>Data is stored directly as objects and stored only in memory.</td></tr><tr><td>MEMORY_ONLY_SER</td><td>Data
+ is serialized as compact byte array representation and stored only in 
+memory. To use it, it has to be deserialized at a cost.</td></tr><tr><td>MEMORY_AND_DISK</td><td>Data is stored directly as objects in memory, but if there’s insufficient memory the rest is serialized and stored on disk.</td></tr><tr><td>DISK_ONLY</td><td>Data is serialized and stored on disk.</td></tr><tr><td>OFF_HEAP</td><td>Data
+ is stored off-heap. Off-heap memory is used in Spark for storage and 
+query execution; see “Configuring Spark executors’ memory and the 
+shuffle service”.</td></tr><tr><td>MEMORY_AND_DISK_SER</td><td>Like MEMORY_AND_DISK, but data is serialized when stored in memory. (Data is always serialized when stored on disk.)</td></tr></tbody></table></figure>
+
+
+
+<h1 class="wp-block-heading"><span class="ez-toc-section" id="Best_Practices"></span>Best Practices<span class="ez-toc-section-end"></span></h1>
+
+
+
+<h2 class="wp-block-heading"><span class="ez-toc-section" id="Use_DataframeDataset_over_RDD"></span>Use Dataframe/Dataset over RDD<span class="ez-toc-section-end"></span></h2>
+
+
+
+<ul><li>Using <strong>RDD</strong> directly leads to performance issues 
+as Spark doesn’t know how to apply the optimization techniques and RDD 
+serialize and de-serialize the data when it distributes across a cluster
+ (repartition &amp; shuffling).<ul><li>Serialization and 
+de-serialization are very expensive operations for Spark applications or
+ any distributed systems, most of our time is spent only on 
+serialization of data rather than executing the operations hence try to 
+avoid using RDD.</li></ul></li></ul>
+
+
+
+<ul><li>The <strong>DataFrame</strong> API does two things that help to do this (through the Tungsten project).<ul><li>First, using off-heap storage for data in binary format.</li><li>Second, generating encoder code on the fly to work with this binary format for your specific objects.</li><li>Since
+ Spark/PySpark DataFrame internally stores data in binary there is no 
+need of Serialization and deserialization data when it distributes 
+across a cluster hence you would see a performance improvement.</li></ul></li></ul>
+
+
+
+<h2 class="wp-block-heading"><span class="ez-toc-section" id="Use_coalesce_over_repartition"></span>Use coalesce() over repartition()<span class="ez-toc-section-end"></span></h2>
+
+
+
+<ul><li>coalesce() is an optimised and improved version of repartition()</li><li>coalesce() → decreases/increases the number of partitions while <strong>avoiding a&nbsp;</strong><strong><em>shuffle</em></strong>&nbsp;in
+ the network. As it does not redistribute the complete data, so this 
+does not solve imbalance problem in distribution of data.</li><li>repartition() → <strong>creates new partitions by full shuffling of data(</strong>costly). As data got evenly distributed, so it increases degree of parallelism.</li></ul>
+
+
+
+<h2 class="wp-block-heading"><span class="ez-toc-section" id="use_mapPartitions_over_map"></span>use mapPartitions() over map()<span class="ez-toc-section-end"></span></h2>
+
+
+
+<ul><li>Both are RDD based operations</li><li>Spark&nbsp;<code>mapPartitions()</code>&nbsp;provides
+ a facility to do heavy initializations (for example Database 
+connection) once for each partition instead of doing it on every 
+DataFrame row. This helps the performance of the Spark jobs when you 
+dealing with heavy-weighted initialization on larger datasets.</li><li>Whereas in the map() it does the same on one row each time.</li><li><strong>Note</strong>:
+ One key point to remember is these both transformations returns the 
+Dataset[U] but not the DataFrame (In Spark 2.0, &nbsp;DataFrame = 
+Dataset[Row])</li></ul>
+
+
+
+<h2 class="wp-block-heading"><span class="ez-toc-section" id="Avoid_UDFs"></span>Avoid UDFs<span class="ez-toc-section-end"></span></h2>
+
+
+
+<ul><li>Try to&nbsp;<a href="https://sparkbyexamples.com/spark/spark-sql-udf/">avoid Spark/PySpark UDF’s</a>&nbsp;at any cost and use when existing Spark built-in functions are not available for use.</li><li>User-
+defined functions de-serialize each row to object, apply the lambda 
+function and re-serialize it resulting in slower execution and more 
+garbage collection time.</li><li>UDF’s are a black box to Spark hence it
+ can’t apply optimisation and you will lose all the optimisation Spark 
+does on Dataframe/Dataset.</li></ul>
+
+
+
+<div class="wp-block-image"><figure class="aligncenter size-large is-resized"><img decoding="async" src="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20754%20317'%3E%3C/svg%3E" alt="" class="wp-image-2417" width="754" height="317" data-lazy-src="https://dataforgeeks.com/wp-content/uploads/2022/05/spark-12-udfs-1024x433.jpeg"><noscript><img decoding="async" src="https://dataforgeeks.com/wp-content/uploads/2022/05/spark-12-udfs-1024x433.jpeg" alt="" class="wp-image-2417" width="754" height="317"/></noscript></figure></div>
+
+
+
+<h2 class="wp-block-heading"><span class="ez-toc-section" id="Disable_unnecessary_DEBUG_and_INFO_logging"></span>Disable unnecessary DEBUG and INFO logging<span class="ez-toc-section-end"></span></h2>
+
+
+
+<ul><li>This is one of the simple ways to improve the performance of 
+Spark Jobs and can be easily avoided by following good coding 
+principles.</li><li>During the development phase of Spark/PySpark application, we usually write debug/info messages to console using&nbsp;<code>println()</code>&nbsp;and logging to a file using some logging framework (log4j);</li><li>These
+ both methods results I/O operations hence cause performance issues when
+ you run Spark jobs with greater workloads. Before promoting your jobs 
+to production make sure you review your code and take care of the 
+following.</li></ul>
+
+
+
+<h2 class="wp-block-heading"><span class="ez-toc-section" id="Checkpointing"></span>Checkpointing<span class="ez-toc-section-end"></span></h2>
+
+
+
+<ul><li><a href="https://spark.apache.org/docs/latest/api/python/pyspark.sql.html#pyspark.sql.DataFrame.checkpoint"><em>Checkpoint</em>&nbsp;</a>truncates
+ the execution plan and saves the checkpointed data frame to a temporary
+ location on the disk and reload it back in – it comes up as a 
+performance-boosting factor</li></ul>
+
+
+
+<ul><li>The point is that each time you apply a transformation or 
+perform a query on a data frame, the query plan grows. Spark keeps all 
+history of transformations applied on a data frame that can be seen when
+ run&nbsp;<em>explain</em>&nbsp;command on the data frame. When the 
+query plan starts to be huge, the performance decreases dramatically, 
+generating bottlenecks.<ul><li>In this manner,&nbsp;<em>checkpoint&nbsp;</em>helps
+ to refresh the query plan and to materialize the data. It is ideal for 
+scenarios including iterative algorithms and branching out a new data 
+frame to perform different kinds of analytics. More tangibly, 
+after&nbsp;<em>checkpointing&nbsp;</em>the data frame, you don’t need to
+ recalculate all of the previous transformations applied on the data 
+frame, it is stored on disk forever.</li></ul></li><li>Note that, Spark won’t clean up the checkpointed data even after the&nbsp;<em>sparkContext&nbsp;</em>is destroyed and the clean-ups need to be managed by the application.</li><li>It is also a good property of&nbsp;<em>checkpointing&nbsp;</em>to debug the data pipeline by checking the status of data frames.</li><li>Caching
+ is also an alternative for a similar purpose in order to increase 
+performance. It obviously requires much more memory compared to&nbsp;<em>checkpointing</em>. There is a good comparison between&nbsp;<em>caching</em>&nbsp;and&nbsp;<em>checkpointing</em>, and when to prefer one of them to the other. You can take a look at&nbsp;<a href="https://medium.com/@adrianchang/apache-spark-checkpointing-ebd2ec065371">here</a>.</li></ul>
+
+
+
+<h2 class="wp-block-heading"><span class="ez-toc-section" id="Use_proper_file_formats"></span>Use proper file formats<span class="ez-toc-section-end"></span></h2>
+
+
+
+<ul><li><a href="https://parquet.apache.org/">Apache Parquet</a>&nbsp;is
+ a columnar storage format designed to select only queried columns and 
+skip over the rest. It gives the fastest read performance with Spark.</li><li><em>Parquet&nbsp;</em>arranges
+ data in columns, putting related values close to each other to optimize
+ query performance, minimize I/O, and facilitate compression.</li><li>Furthermore, it implements&nbsp;<a href="https://umbertogriffo.gitbook.io/apache-spark-best-practices-and-tuning/storage/use-the-best-data-format">column pruning and predicate pushdown</a>&nbsp;
+(filters based on stats) which is simply a process of only selecting the
+ required data for processing when querying a huge table. It prevents 
+loading unnecessary parts of the data in-memory and reduces network 
+usage.<ul><li><img decoding="async" width="800" height="492" class="wp-image-2418" style="width: 800px;" src="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20800%20492'%3E%3C/svg%3E" alt="" data-lazy-srcset="https://dataforgeeks.com/wp-content/uploads/2022/05/spark-13-fileformat.png 1180w, https://dataforgeeks.com/wp-content/uploads/2022/05/spark-13-fileformat-300x184.png 300w, https://dataforgeeks.com/wp-content/uploads/2022/05/spark-13-fileformat-1024x629.png 1024w, https://dataforgeeks.com/wp-content/uploads/2022/05/spark-13-fileformat-768x472.png 768w" data-lazy-sizes="(max-width: 800px) 100vw, 800px" data-lazy-src="https://dataforgeeks.com/wp-content/uploads/2022/05/spark-13-fileformat.png"><noscript><img decoding="async" width="800" height="492" class="wp-image-2418" style="width: 800px;" src="https://dataforgeeks.com/wp-content/uploads/2022/05/spark-13-fileformat.png" alt="" srcset="https://dataforgeeks.com/wp-content/uploads/2022/05/spark-13-fileformat.png 1180w, https://dataforgeeks.com/wp-content/uploads/2022/05/spark-13-fileformat-300x184.png 300w, https://dataforgeeks.com/wp-content/uploads/2022/05/spark-13-fileformat-1024x629.png 1024w, https://dataforgeeks.com/wp-content/uploads/2022/05/spark-13-fileformat-768x472.png 768w" sizes="(max-width: 800px) 100vw, 800px" /></noscript></li></ul></li></ul>
+
+
+
+<h2 class="wp-block-heading"><span class="ez-toc-section" id="use_toPandas_with_pyArrow"></span>use toPandas() with pyArrow<span class="ez-toc-section-end"></span></h2>
+
+
+
+<ul><li><a href="https://arrow.apache.org/">Apache Arrow</a>&nbsp;is a 
+cross-language development platform for in-memory data. It specifies a 
+standardized language-independent columnar memory format for flat and 
+hierarchical data. More clearly,&nbsp;Apache Arrow&nbsp;is a bridge 
+between cross-language platforms that facilities reading a Spark data 
+frame and then writing data frame into Apache Cassandra without 
+suffering enormous inefficient serialization and deserialization 
+performance.</li><li>Apache&nbsp;PyArrow&nbsp;is the Python 
+implementation of Arrow. It provides a Python API that brings together 
+the functionalities of Arrow with Python environment including leading 
+libraries like&nbsp;pandas&nbsp;and&nbsp;numpy</li><li>In Spark, data is
+ processed very fast as long as it is in JVM. However, for some reasons 
+like rich and talented data processing libraries in Python, the data 
+might be moved between Python environment and JVM by Pyspark developers.
+ In this sense, utilizing&nbsp;PyArrow&nbsp;while moving from pandas 
+data frame to Spark data frame or vice-versa results in a huge 
+performance improvement.</li></ul>
+
+
+
+<h1 class="wp-block-heading"><span class="ez-toc-section" id="Takeaways"></span>Takeaways<span class="ez-toc-section-end"></span></h1>
+
+
+
+<ol><li>Don’t use&nbsp;<em>count()</em>&nbsp;when you don’t need to return the exact number of rows. To check if data frame is empty,&nbsp;<em>len(df.head(1))&gt;0&nbsp;</em>will be more accurate considering the performance issues.</li><li>Do not use&nbsp;<em>show()</em>&nbsp;in your production code.</li><li>It is a good practice to use&nbsp;<em>df.explain()&nbsp;</em>to get insight into the internal representation of a data frame in Spark(the final version of the physical plan).</li><li>Always try to minimize the data size by filtering irrelevant data(rows/columns) before joinings.</li><li>Monitor Spark applications online/offline. It might give you&nbsp;<a href="https://developer.hpe.com/blog/Ql2DXNL4rmhWB8AEDMQz/tips-and-best-practices-to-take-advantage-of-spark-2x">any clues</a>&nbsp;about unbalanced data partitions, where the jobs are stuck, and query plans. An alternative to Spark UI might be&nbsp;<a href="https://medium.com/knoldus/ganglia-cluster-monitoring-monitoring-spark-cluster-77786b8bd38d">Ganglia</a>.</li><li>Basically, avoid using loops.</li><li>Focus on built-in functions rather than custom solutions.</li><li>Ensure that key columns in&nbsp;<em>join&nbsp;</em>operation do not include null values.</li><li><a href="https://medium.com/softwaresanders/improving-your-apache-spark-application-performance-ec5d64bc3c75">Put the bigger dataset on the left in joins</a>.</li><li>Keep in mind that Spark runs with&nbsp;<em>Lazy Evaluation</em>&nbsp;logic. So, nothing is triggered until an action is called. That might result in&nbsp;<a href="https://medium.com/enigma-engineering/things-i-wish-id-known-about-spark-when-i-started-one-year-later-edition-d767430181ed">meaningless error</a>&nbsp;codes.</li><li>Unpersist the data in the cache, if you don’t need it for the rest of the code.</li><li>Close/stop your Spark session when you are done with your application.</li><li>In&nbsp;<a href="https://medium.com/@ch.nabarun/whats-new-in-spark-3-8250a65b3144">Spark 3.0</a>, significant improvements are achieved to tackle performance issues by&nbsp;<a href="https://databricks.com/blog/2020/05/29/adaptive-query-execution-speeding-up-spark-sql-at-runtime.html"><em>Adaptive Query Execution</em></a>, take upgrading the version into consideration.</li><li>Prefer data frames to RDDs for data manipulations.</li><li>In general, tasks larger than about&nbsp;<strong>20 KiB</strong>&nbsp;are probably worth optimizing.</li><li>In general, it is recommended&nbsp;<strong>2–3 tasks per CPU core</strong>&nbsp;in your cluster.</li><li>It is always good to have a block within&nbsp;<strong>128MB</strong>&nbsp;per partition to achieve parallelism.</li><li><em>Csv&nbsp;</em>and&nbsp;<em>Json&nbsp;</em>data file formats give high write performance but are slower for reading, on the other hand,&nbsp;<em>Parquet&nbsp;</em>file
+ format is very fast and gives the best performance in reading and 
+slower than the other mentioned file formats concerning writing 
+operation.</li><li>The physical plan is read from the bottom up, whereas the DAG is read from the top down.</li><li>The&nbsp;<em>Exchange&nbsp;</em>means a shuffle occurred between stages, and it is basically a performance degradation.</li><li>An excessive number of stages might be a sign of a performance problem.</li><li><a href="https://spark.apache.org/docs/latest/tuning.html#garbage-collection-tuning">Garbage collection(GC)</a>&nbsp;is another key factor that might cause performance issues. Check it out from the&nbsp;<em>Executors</em>&nbsp;tab of Spark UI. You may typically use Java GC options in any GC-related case.</li><li>Serialization
+ also plays an important role in the performance of any distributed 
+application. Formats that are slow to serialize objects into, or consume
+ a large number of bytes, will greatly slow down the computation. For 
+Scala/Java-based Spark applications,&nbsp;<a href="https://spark.apache.org/docs/latest/tuning.html#data-serialization">Kryo serialization</a>&nbsp;is highly recommended. In Pyspark,&nbsp;<a href="https://spark.apache.org/docs/latest/api/python/_modules/pyspark/serializers.html">Marshal and Pickle&nbsp;</a>serializers are supported,&nbsp;<em>MarshalSerializer&nbsp;</em>is faster than&nbsp;<em>PickleSerializer&nbsp;</em>but supports fewer data types.</li><li>Note that you might experience a performance loss if you prefer to use Spark in the&nbsp;<em>docker&nbsp;</em>environment.</li></ol>
+
+
+
+<h1 class="wp-block-heading"><span class="ez-toc-section" id="References"></span>References<span class="ez-toc-section-end"></span></h1>
+
+
+
+<ol><li>https://www.oreilly.com/library/view/learning-spark-2nd/9781492050032/</li><li><a href="https://sparkbyexamples.com/spark/spark-performance-tuning/">https://sparkbyexamples.com/spark/spark-performance-tuning/</a></li><li><a href="http://analyticsvidhya.com/blog/2021/08/best-practices-and-performance-tuning-activities-for-pyspark/">analyticsvidhya.com/blog/2021/08/best-practices-and-performance-tuning-activities-for-pyspark/</a></li><li><a href="https://towardsdatascience.com/apache-spark-performance-boosting-e072a3ec1179">https://towardsdatascience.com/apache-spark-performance-boosting-e072a3ec1179</a></li><li><a href="https://medium.com/datakaresolutions/optimize-spark-sql-joins-c81b4e3ed7da">https://medium.com/datakaresolutions/optimize-spark-sql-joins-c81b4e3ed7da</a></li><li><a href="https://towardsdatascience.com/6-recommendations-for-optimizing-a-spark-job-5899ec269b4b">https://towardsdatascience.com/6-recommendations-for-optimizing-a-spark-job-5899ec269b4b</a></li><li><a href="https://databricks.com/fr/session/optimizing-apache-spark-sql-joins">https://databricks.com/fr/session/optimizing-apache-spark-sql-joins</a></li><li><a href="https://medium.com/swlh/spark-sql-adaptive-query-execution-3adc68973c91">https://medium.com/swlh/spark-sql-adaptive-query-execution-3adc68973c91</a></li><li><a href="https://medium.com/nerd-for-tech/5-most-common-spark-performance-problems-9924b863421f">https://medium.com/nerd-for-tech/5-most-common-spark-performance-problems-9924b863421f</a></li><li><a href="https://medium.com/curious-data-catalog/sparks-skew-problem-does-it-impact-performance-257cdef53680">https://medium.com/curious-data-catalog/sparks-skew-problem-does-it-impact-performance-257cdef53680</a></li><li><a href="https://medium.com/curious-data-catalog/sparks-salting-a-step-towards-mitigating-skew-problem-5b2e66791620">https://medium.com/curious-data-catalog/sparks-salting-a-step-towards-mitigating-skew-problem-5b2e66791620</a></li><li><a href="https://medium.com/curious-data-catalog/spill-often-ignored-sparks-performance-problem-9b4c1ea962f">https://medium.com/curious-data-catalog/spill-often-ignored-sparks-performance-problem-9b4c1ea962f</a></li><li><a href="https://medium.com/curious-data-catalog/shuffle-why-am-i-getting-oom-errors-de4c723d2325">https://medium.com/curious-data-catalog/shuffle-why-am-i-getting-oom-errors-de4c723d2325</a></li><li><a href="https://medium.com/curious-data-catalog/bucketing-are-you-leveraging-it-in-a-right-way-70dc1659bd19">https://medium.com/curious-data-catalog/bucketing-are-you-leveraging-it-in-a-right-way-70dc1659bd19</a></li><li>https://luminousmen.com/post/spark-tips-partition-tuning</li><li>https://www.xenonstack.com/blog/apache-spark-optimisation</li></ol>
+<div class="post-views content-post post-2305 entry-meta">
+				<span class="post-views-icon dashicons dashicons-chart-bar"></span> <span class="post-views-label">Views:</span> <span class="post-views-count">14,249</span>
+			</div>		</div>
+
+				<footer class="entry-meta" aria-label="Entry meta">
+			<span class="cat-links"><span class="screen-reader-text">Categories </span><a href="https://dataforgeeks.com/category/general/" rel="category tag">General</a></span> <span class="tags-links"><span class="screen-reader-text">Tags </span><a href="https://dataforgeeks.com/tag/apache-spark/" rel="tag">apache spark</a>, <a href="https://dataforgeeks.com/tag/big-data/" rel="tag">big data</a>, <a href="https://dataforgeeks.com/tag/bigdata/" rel="tag">bigdata</a>, <a href="https://dataforgeeks.com/tag/optimisation/" rel="tag">optimisation</a>, <a href="https://dataforgeeks.com/tag/partition/" rel="tag">partition</a>, <a href="https://dataforgeeks.com/tag/spark/" rel="tag">spark</a>, <a href="https://dataforgeeks.com/tag/tuning/" rel="tag">tuning</a></span> 		<nav id="nav-below" class="post-navigation" aria-label="Posts">
+			<div class="nav-previous"><span class="prev"><a href="https://dataforgeeks.com/data-serialisation-avro-vs-protocol-buffers/2015/" rel="prev">Data Serialisation – Avro vs Protocol Buffers</a></span></div><div class="nav-next"><span class="next"><a href="https://dataforgeeks.com/snowflake-performance-tuning-and-best-practices/2338/" rel="next">Snowflake – Performance Tuning and Best Practices</a></span></div>		</nav>
+				</footer>
+			</div>
+</article>
+
+			<div class="comments-area">
+				<div id="comments">
+
+	<h3 class="comments-title">1 thought on “Apache Spark – Performance Tuning and Best Practices”</h3>
+		<ol class="comment-list">
+			
+		<li id="comment-204" class="comment even thread-even depth-1">
+			<article class="comment-body" id="div-comment-204" itemtype="https://schema.org/Comment" itemscope="">
+				<footer class="comment-meta" aria-label="Comment meta">
+					<img alt="" src="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2050%2050'%3E%3C/svg%3E" data-lazy-srcset="https://secure.gravatar.com/avatar/3a717b29ac5587b0579ac7e7226c4300?s=100&amp;d=mm&amp;r=g 2x" class="avatar avatar-50 photo" height="50" width="50" decoding="async" data-lazy-src="https://secure.gravatar.com/avatar/3a717b29ac5587b0579ac7e7226c4300?s=50&amp;d=mm&amp;r=g"><noscript><img alt='' src='https://secure.gravatar.com/avatar/3a717b29ac5587b0579ac7e7226c4300?s=50&#038;d=mm&#038;r=g' srcset='https://secure.gravatar.com/avatar/3a717b29ac5587b0579ac7e7226c4300?s=100&#038;d=mm&#038;r=g 2x' class='avatar avatar-50 photo' height='50' width='50' decoding='async'/></noscript>					<div class="comment-author-info">
+						<div class="comment-author vcard" itemprop="author" itemtype="https://schema.org/Person" itemscope="">
+							<cite itemprop="name" class="fn"><a href="https://servreality.com/technologies/scala-development/" class="url" rel="ugc external nofollow">scala development</a></cite>						</div>
+
+													<div class="entry-meta comment-metadata">
+								<a href="https://dataforgeeks.com/apache-spark-performance-tuning-and-best-practices/2305/#comment-204">									<time datetime="2023-05-09T20:53:16+00:00" itemprop="datePublished">
+										May 9, 2023 at 8:53 pm									</time>
+								</a>							</div>
+												</div>
+
+									</footer>
+
+				<div class="comment-content" itemprop="text">
+					<p>Excellent post however , I was wondering if you could write<br>
+a litte more on this topic? I’d be very thankful if you could elaborate a little bit more.<br>
+Cheers!</p>
+<span class="reply"><a rel="nofollow" class="comment-reply-link" href="#comment-204" data-commentid="204" data-postid="2305" data-belowelement="div-comment-204" data-respondelement="respond" data-replyto="Reply to scala development" aria-label="Reply to scala development">Reply</a></span>				</div>
+			</article>
+			</li><div style="width: 100%; height: auto; clear: none; text-align: center;" class="google-auto-placed"><ins style="display: block; margin: 10px auto; background-color: transparent; height: 280px;" data-ad-format="auto" class="adsbygoogle adsbygoogle-noablate" data-ad-client="ca-pub-9040638560872555" data-adsbygoogle-status="done"><div id="aswift_5_host" style="border: medium; height: 280px; width: 987px; margin: 0px; padding: 0px; position: relative; visibility: visible; background-color: transparent; display: inline-block;"></div></ins></div><!-- #comment-## -->
+		</ol><!-- .comment-list -->
+
+			<div id="respond" class="comment-respond">
+		<h3 id="reply-title" class="comment-reply-title">Leave a Comment <small><a rel="nofollow" id="cancel-comment-reply-link" href="https://dataforgeeks.com/apache-spark-performance-tuning-and-best-practices/2305/#respond" style="display:none;">Cancel reply</a></small></h3><form action="https://dataforgeeks.com/wp-comments-post.php" method="post" id="commentform" class="comment-form" novalidate=""> <!-- OneAll.com / Social Login for WordPress / v5.7 -->
+<div class="oneall_social_login">
+ <div class="oneall_social_login_label" style="margin-bottom: 3px;"><label>Connect with:</label></div>
+ <div class="oneall_social_login_providers" id="oneall_social_login_providers_651573" data-processed="true" style="min-height: 61px;"><iframe id="oa_social_login_frame_81209" frameborder="0" scrolling="no" allowtransparency="true" data-processed="true" title="Login with Social Networks" name="OneAll Social Login" style="border: 0px; width: 987px; height: 61px; background-color: transparent;" src="Apache%20Spark%20%E2%80%93%20Performance%20Tuning%20and%20Best%20Practices%20-%20DataForGeeks_files/a_005.html"></iframe></div>
+ <script data-cfasync="false" type="text/javascript">
+  var _oneall = _oneall || [];
+  _oneall.push(['social_login', 'set_providers', ['facebook','google','linkedin','twitter','windowslive']]);
+  _oneall.push(['social_login', 'set_callback_uri', (window.location.href + ((window.location.href.split('?')[1] ? '&amp;': '?') + "oa_social_login_source=comments"))]);
+  _oneall.push(['social_login', 'set_custom_css_uri', 'https://secure.oneallcdn.com/css/api/socialize/themes/wordpress/default.css']);
+  _oneall.push(['social_login', 'do_render_ui', 'oneall_social_login_providers_651573']);
+ </script>
+</div><p class="comment-form-comment"><label for="comment" class="screen-reader-text">Comment</label><textarea id="comment" name="comment" cols="45" rows="8" required=""></textarea></p><label for="author" class="screen-reader-text">Name</label><input placeholder="Name *" id="author" name="author" type="text" size="30" required="">
+<label for="email" class="screen-reader-text">Email</label><input placeholder="Email *" id="email" name="email" type="email" size="30" required="">
+<label for="url" class="screen-reader-text">Website</label><input placeholder="Website" id="url" name="url" type="url" size="30">
+<p class="comment-form-cookies-consent"><input id="wp-comment-cookies-consent" name="wp-comment-cookies-consent" type="checkbox" value="yes"> <label for="wp-comment-cookies-consent">Save my name, email, and website in this browser for the next time I comment.</label></p>
+<p class="form-submit"><input name="submit" type="submit" id="submit" class="submit" value="Post Comment"> <input type="hidden" name="comment_post_ID" value="2305" id="comment_post_ID">
+<input type="hidden" name="comment_parent" id="comment_parent" value="0">
+</p></form>	</div><!-- #respond -->
+	
+</div><!-- #comments -->
+			</div>
+
+					</main>
+	</div>
+
+	<div class="widget-area sidebar is-right-sidebar grid-25 tablet-grid-25 grid-parent" id="right-sidebar">
+	<div class="inside-right-sidebar">
+		<aside id="oa-social-login-2" class="widget inner-padding widget_oa-social-login"><h2 class="widget-title">Connect with:</h2> <!-- OneAll.com / Social Login for WordPress / v5.7 -->
+<div class="oneall_social_login">
+ <div class="oneall_social_login_providers" id="oneall_social_login_providers_1072110" data-processed="true" style="min-height: 64px;"><iframe id="oa_social_login_frame_56823" frameborder="0" scrolling="no" allowtransparency="true" data-processed="true" title="Login with Social Networks" name="OneAll Social Login" style="border: 0px; width: 280px; height: 64px; background-color: transparent;" src="Apache%20Spark%20%E2%80%93%20Performance%20Tuning%20and%20Best%20Practices%20-%20DataForGeeks_files/a_006.html"></iframe></div>
+ <script data-cfasync="false" type="text/javascript">
+  var _oneall = _oneall || [];
+  _oneall.push(['social_login', 'set_providers', ['facebook','google','linkedin','twitter','windowslive']]);
+  _oneall.push(['social_login', 'set_callback_uri', (window.location.href + ((window.location.href.split('?')[1] ? '&amp;': '?') + "oa_social_login_source=widget"))]);
+  _oneall.push(['social_login', 'set_custom_css_uri', 'https://secure.oneallcdn.com/css/api/socialize/themes/wordpress/modern.css']);
+  _oneall.push(['social_login', 'do_render_ui', 'oneall_social_login_providers_1072110']);
+ </script>
+</div></aside><aside id="categories-2" class="widget inner-padding widget_categories"><h2 class="widget-title">Categories</h2>
+			<ul>
+					<li class="cat-item cat-item-28"><a href="https://dataforgeeks.com/category/big-data/">Big Data</a> (9)
+<ul class="children">
+	<li class="cat-item cat-item-35"><a href="https://dataforgeeks.com/category/big-data/hdfs/">HDFS</a> (1)
+</li>
+	<li class="cat-item cat-item-29"><a href="https://dataforgeeks.com/category/big-data/impala/">Impala</a> (5)
+</li>
+	<li class="cat-item cat-item-14"><a href="https://dataforgeeks.com/category/big-data/sqoop/">Sqoop</a> (3)
+</li>
+</ul>
+</li>
+	<li class="cat-item cat-item-1"><a href="https://dataforgeeks.com/category/general/">General</a> (10)
+</li>
+	<li class="cat-item cat-item-7"><a href="https://dataforgeeks.com/category/redshift/">Redshift</a> (1)
+</li>
+	<li class="cat-item cat-item-3"><a href="https://dataforgeeks.com/category/sql/">SQL</a> (15)
+</li>
+			</ul>
+
+			</aside><aside id="wpforms-widget-2" class="widget inner-padding wpforms-widget"><div class="wpforms-container wpforms-container-full" id="wpforms-2005"><form id="wpforms-form-2005" class="wpforms-validate wpforms-form" data-formid="2005" method="post" enctype="multipart/form-data" action="/apache-spark-performance-tuning-and-best-practices/2305/" data-token="a03e54dc7ef8db648f27af11d5201653" novalidate="novalidate"><noscript class="wpforms-error-noscript">Please enable JavaScript in your browser to complete this form.</noscript><div class="wpforms-field-container"><div id="wpforms-2005-field_1-container" class="wpforms-field wpforms-field-email" data-field-id="1"><label class="wpforms-field-label" for="wpforms-2005-field_1">Email <span class="wpforms-required-label">*</span></label><input type="email" id="wpforms-2005-field_1" class="wpforms-field-large wpforms-field-required" name="wpforms[fields][1]" spellcheck="false" required=""></div></div><!-- .wpforms-field-container --><div class="wpforms-field wpforms-field-hp"><label for="wpforms-2005-field-hp" class="wpforms-field-label">Message</label><input type="text" name="wpforms[hp]" id="wpforms-2005-field-hp" class="wpforms-field-medium"></div><div class="wpforms-submit-container"><input type="hidden" name="wpforms[id]" value="2005"><input type="hidden" name="wpforms[author]" value="1"><input type="hidden" name="wpforms[post_id]" value="2305"><button type="submit" name="wpforms[submit]" id="wpforms-submit-2005" class="wpforms-submit" data-alt-text="Sending..." data-submit-text="Subscribe" aria-live="assertive" value="wpforms-submit">Subscribe</button></div></form></div>  <!-- .wpforms-container --></aside><aside id="rss-2" class="widget inner-padding widget_rss"><h2 class="widget-title"><a class="rsswidget rss-widget-feed" href="http://feeds.feedburner.com/Dataforgeeks"><img class="rss-widget-icon entered lazyloaded" style="border:0" width="14" height="14" src="Apache%20Spark%20%E2%80%93%20Performance%20Tuning%20and%20Best%20Practices%20-%20DataForGeeks_files/rss.png" alt="RSS" data-lazy-src="https://dataforgeeks.com/wp-includes/images/rss.png" data-ll-status="loaded"><noscript><img class="rss-widget-icon" style="border:0" width="14" height="14" src="https://dataforgeeks.com/wp-includes/images/rss.png" alt="RSS" /></noscript></a> <a class="rsswidget rss-widget-title" href="">Unknown Feed</a></h2></aside><aside id="archives-2" class="widget inner-padding widget_archive"><h2 class="widget-title">Archives</h2>
+			<ul>
+					<li><a href="https://dataforgeeks.com/date/2022/05/">May 2022</a>&nbsp;(2)</li>
+	<li><a href="https://dataforgeeks.com/date/2022/03/">March 2022</a>&nbsp;(1)</li>
+	<li><a href="https://dataforgeeks.com/date/2022/02/">February 2022</a>&nbsp;(1)</li>
+	<li><a href="https://dataforgeeks.com/date/2020/05/">May 2020</a>&nbsp;(1)</li>
+	<li><a href="https://dataforgeeks.com/date/2019/11/">November 2019</a>&nbsp;(1)</li>
+	<li><a href="https://dataforgeeks.com/date/2019/07/">July 2019</a>&nbsp;(1)</li>
+	<li><a href="https://dataforgeeks.com/date/2019/05/">May 2019</a>&nbsp;(1)</li>
+	<li><a href="https://dataforgeeks.com/date/2019/03/">March 2019</a>&nbsp;(1)</li>
+	<li><a href="https://dataforgeeks.com/date/2018/12/">December 2018</a>&nbsp;(2)</li>
+	<li><a href="https://dataforgeeks.com/date/2018/08/">August 2018</a>&nbsp;(2)</li>
+	<li><a href="https://dataforgeeks.com/date/2018/07/">July 2018</a>&nbsp;(2)</li>
+	<li><a href="https://dataforgeeks.com/date/2018/06/">June 2018</a>&nbsp;(1)</li>
+	<li><a href="https://dataforgeeks.com/date/2018/05/">May 2018</a>&nbsp;(2)</li>
+	<li><a href="https://dataforgeeks.com/date/2018/04/">April 2018</a>&nbsp;(1)</li>
+	<li><a href="https://dataforgeeks.com/date/2018/03/">March 2018</a>&nbsp;(2)</li>
+	<li><a href="https://dataforgeeks.com/date/2016/07/">July 2016</a>&nbsp;(4)</li>
+	<li><a href="https://dataforgeeks.com/date/2016/06/">June 2016</a>&nbsp;(3)</li>
+	<li><a href="https://dataforgeeks.com/date/2015/06/">June 2015</a>&nbsp;(2)</li>
+	<li><a href="https://dataforgeeks.com/date/2011/10/">October 2011</a>&nbsp;(3)</li>
+	<li><a href="https://dataforgeeks.com/date/2009/11/">November 2009</a>&nbsp;(2)</li>
+			</ul>
+
+			</aside><aside id="block-4" class="widget inner-padding widget_block"><script async="" src="Apache%20Spark%20%E2%80%93%20Performance%20Tuning%20and%20Best%20Practices%20-%20DataForGeeks_files/f_004.txt" crossorigin="anonymous" data-checked-head="true"></script></aside>	</div>
+</div>
+
+	</div>
+</div>
+
+
+<div style="width: 100%; height: auto; clear: none; text-align: center;" class="google-auto-placed"><ins style="display: block; margin: 10px auto; background-color: transparent; height: 280px;" data-ad-format="auto" class="adsbygoogle adsbygoogle-noablate" data-ad-client="ca-pub-9040638560872555" data-adsbygoogle-status="done"><div id="aswift_6_host" style="border: medium; height: 280px; width: 1200px; margin: 0px; padding: 0px; position: relative; visibility: visible; background-color: transparent; display: inline-block;"></div></ins></div><div class="site-footer">
+			<footer class="site-info" aria-label="Site" itemtype="https://schema.org/WPFooter" itemscope="">
+			<div style="width: 100%; height: auto; clear: none; text-align: center;" class="google-auto-placed"><ins style="display: block; margin: 10px auto; background-color: transparent; height: 280px;" data-ad-format="auto" class="adsbygoogle adsbygoogle-noablate" data-ad-client="ca-pub-9040638560872555" data-adsbygoogle-status="done"><div id="aswift_7_host" style="border: medium; height: 280px; width: 1200px; margin: 0px; padding: 0px; position: relative; visibility: visible; background-color: transparent; display: inline-block;"></div></ins></div><div class="inside-site-info grid-container grid-parent">
+								<div class="copyright-bar">
+					© 2022 DataForGeeks				</div>
+			</div>
+		</footer>
+		</div>
+
+<a title="Scroll back to top" aria-label="Scroll back to top" rel="nofollow" href="#" class="generate-back-to-top" data-scroll-speed="400" data-start-scroll="300">
+					
+				</a>
+
+<!--[if lte IE 11]>
+<script src="https://dataforgeeks.com/wp-content/themes/generatepress/assets/js/classList.min.js?ver=3.4.0" id="generate-classlist-js"></script>
+<![endif]-->
+<script id="generate-menu-js-extra">
+var generatepressMenu = {"toggleOpenedSubMenus":"1","openSubMenuLabel":"Open Sub-Menu","closeSubMenuLabel":"Close Sub-Menu"};
+</script>
+
+<script id="generate-back-to-top-js-extra">
+var generatepressBackToTop = {"smooth":"1"};
+</script>
+
+
+
+
+
+
+
+
+
+
+<script>window.lazyLoadOptions=[{elements_selector:"img[data-lazy-src],.rocket-lazyload,iframe[data-lazy-src]",data_src:"lazy-src",data_srcset:"lazy-srcset",data_sizes:"lazy-sizes",class_loading:"lazyloading",class_loaded:"lazyloaded",threshold:300,callback_loaded:function(element){if(element.tagName==="IFRAME"&&element.dataset.rocketLazyload=="fitvidscompatible"){if(element.classList.contains("lazyloaded")){if(typeof window.jQuery!="undefined"){if(jQuery.fn.fitVids){jQuery(element).parent().fitVids()}}}}}},{elements_selector:".rocket-lazyload",data_src:"lazy-src",data_srcset:"lazy-srcset",data_sizes:"lazy-sizes",class_loading:"lazyloading",class_loaded:"lazyloaded",threshold:300,}];window.addEventListener('LazyLoad::Initialized',function(e){var lazyLoadInstance=e.detail.instance;if(window.MutationObserver){var observer=new MutationObserver(function(mutations){var image_count=0;var iframe_count=0;var rocketlazy_count=0;mutations.forEach(function(mutation){for(var i=0;i<mutation.addedNodes.length;i++){if(typeof mutation.addedNodes[i].getElementsByTagName!=='function'){continue}
+if(typeof mutation.addedNodes[i].getElementsByClassName!=='function'){continue}
+images=mutation.addedNodes[i].getElementsByTagName('img');is_image=mutation.addedNodes[i].tagName=="IMG";iframes=mutation.addedNodes[i].getElementsByTagName('iframe');is_iframe=mutation.addedNodes[i].tagName=="IFRAME";rocket_lazy=mutation.addedNodes[i].getElementsByClassName('rocket-lazyload');image_count+=images.length;iframe_count+=iframes.length;rocketlazy_count+=rocket_lazy.length;if(is_image){image_count+=1}
+if(is_iframe){iframe_count+=1}}});if(image_count>0||iframe_count>0||rocketlazy_count>0){lazyLoadInstance.update()}});var b=document.getElementsByTagName("body")[0];var config={childList:!0,subtree:!0};observer.observe(b,config)}},!1)</script><script data-no-minify="1" async="" src="Apache%20Spark%20%E2%80%93%20Performance%20Tuning%20and%20Best%20Practices%20-%20DataForGeeks_files/lazyload.min.js"></script>
+<script src="Apache%20Spark%20%E2%80%93%20Performance%20Tuning%20and%20Best%20Practices%20-%20DataForGeeks_files/50ccac416398425f04b7054ba018fb67.js" data-minify="1" defer="defer"></script>
+
+
+<img id="BtnTool" src="Apache%20Spark%20%E2%80%93%20Performance%20Tuning%20and%20Best%20Practices%20-%20DataForGeeks_files/icon.png" style="position: absolute; top: 619px; left: -4px; z-index: 9999; cursor: pointer; display: none;" height="25" width="25"><img id="LoadingGif" src="moz-extension://606d0395-840c-42ea-97a6-efc693feae39/icons/loading.gif" style="position: absolute; top: 619px; z-index: 9999; cursor: pointer; display: none; left: -4px;" height="70" width="70"><ins class="adsbygoogle adsbygoogle-noablate" style="display: none !important;" data-adsbygoogle-status="done" data-ad-status="unfilled"><div id="aswift_0_host" style="border: medium; height: 0px; width: 0px; margin: 0px; padding: 0px; position: relative; visibility: visible; background-color: transparent; display: inline-block;"><iframe id="aswift_0" name="aswift_0" style="left:0;position:absolute;top:0;border:0;width:undefinedpx;height:undefinedpx;" sandbox="allow-forms allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts allow-top-navigation-by-user-activation" frameborder="0" marginwidth="0" marginheight="0" vspace="0" hspace="0" allowtransparency="true" scrolling="no" src="Apache%20Spark%20%E2%80%93%20Performance%20Tuning%20and%20Best%20Practices%20-%20DataForGeeks_files/ads_003.html" data-google-container-id="a!1" tabindex="0" title="Advertisement" aria-label="Advertisement" data-load-complete="true"></iframe></div></ins><iframe style="display: none; width: 0px; height: 0px; border: medium; z-index: -1000; left: -1000px; top: -1000px;" name="googlefcPresent"></iframe><ins class="adsbygoogle adsbygoogle-noablate" data-adsbygoogle-status="done" style="display: block; width: 100% !important; height: 129px !important; bottom: -124px; clear: none !important; float: none !important; left: 0px; margin: 0px !important; max-height: none !important; max-width: none !important; opacity: 1; overflow: visible !important; padding: 0px !important; position: fixed; right: auto !important; top: auto !important; vertical-align: baseline !important; visibility: visible !important; z-index: 2147483647; background: rgb(250, 250, 250) !important;" data-anchor-status="dismissed" data-ad-status="filled" data-anchor-shown="true"><div class="grippy-host"></div><div id="aswift_8_host" style="border: medium !important; height: 124px !important; width: 100% !important; margin: 0px !important; padding: 0px !important; position: relative !important; visibility: visible !important; background-color: transparent !important; display: inline-block !important; inset: auto !important; clear: none !important; float: none !important; max-height: none !important; max-width: none !important; opacity: 1 !important; overflow: visible !important; vertical-align: baseline !important; z-index: auto !important;"><iframe id="aswift_8" name="aswift_8" style="width: 1005px !important; height: 124px !important; display: block; margin: 0px auto;" sandbox="allow-forms allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts allow-top-navigation-by-user-activation" width="1005" height="124" frameborder="0" marginwidth="0" marginheight="0" vspace="0" hspace="0" allowtransparency="true" scrolling="no" src="Apache%20Spark%20%E2%80%93%20Performance%20Tuning%20and%20Best%20Practices%20-%20DataForGeeks_files/zrt_lookup_fy2021.html" data-google-container-id="a!9" tabindex="0" title="Advertisement" aria-label="Advertisement" data-google-query-id="CMTMivnd4YUDFea8JwIdyX8NSw" data-load-complete="true"></iframe></div></ins><iframe name="__tcfapiLocator" src="Apache%20Spark%20%E2%80%93%20Performance%20Tuning%20and%20Best%20Practices%20-%20DataForGeeks_files/a_004.html" style="display: none; width: 0px; height: 0px; border: medium; z-index: -1000; left: -1000px; top: -1000px;"></iframe><iframe name="googlefcInactive" src="Apache%20Spark%20%E2%80%93%20Performance%20Tuning%20and%20Best%20Practices%20-%20DataForGeeks_files/a_004.html" style="display: none; width: 0px; height: 0px; border: medium; z-index: -1000; left: -1000px; top: -1000px;"></iframe><iframe name="googlefcLoaded" src="Apache%20Spark%20%E2%80%93%20Performance%20Tuning%20and%20Best%20Practices%20-%20DataForGeeks_files/a_004.html" style="display: none; width: 0px; height: 0px; border: medium; z-index: -1000; left: -1000px; top: -1000px;"></iframe><iframe src="Apache%20Spark%20%E2%80%93%20Performance%20Tuning%20and%20Best%20Practices%20-%20DataForGeeks_files/aframe.html" width="0" height="0" style="display: none;"></iframe></body></html>
+<!-- This website is like a Rocket, isn't it? Performance optimized by WP Rocket. Learn more: https://wp-rocket.me - Debug: cached@1714194613 -->

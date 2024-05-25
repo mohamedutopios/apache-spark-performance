@@ -1,0 +1,15 @@
+/* Base Theme */
+@import url("/css/api/themes/beveled_w35_h35_wc_v1.css");
+
+/* WordPress Customisations */
+.plugin #providers .provider {
+	width: 35px;
+}
+
+.plugin #providers .provider .name {
+	display: none;
+}
+
+.plugin .footer {
+	left: 2px;
+}

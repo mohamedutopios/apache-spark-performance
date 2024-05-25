@@ -1,0 +1,12 @@
+Apache Spark est un moteur de traitement de données à grande échelle, open source, qui est utilisé pour les applications de traitement de données en batch et en temps réel. Développé initialement à l'Université de Californie à Berkeley, il a été conçu pour être rapide et généraliste, permettant à la fois le traitement par lots et les calculs en temps réel. Spark supporte plusieurs langages de programmation tels que Scala, Java, Python et R, et il inclut plusieurs bibliothèques intégrées pour le SQL, le streaming, le machine learning et le traitement de graphes.
+
+Databricks, d'autre part, est une plateforme de données basée sur le cloud conçue pour aider les entreprises à simplifier et à accélérer leurs processus d'analyse de données et de développement d'intelligence artificielle (IA). Elle a été fondée par les créateurs de Spark et offre une plateforme unifiée pour le traitement de données, l'apprentissage automatique et l'analyse avancée. Databricks permet aux utilisateurs de créer des clusters Spark rapidement, de collaborer en équipe avec des notebooks partagés, et de gérer les workflows de données de manière sécurisée et efficace.
+
+La relation entre Spark et Databricks est donc assez étroite :
+
+1. **Fondation**: Databricks a été créé par les développeurs originaux d'Apache Spark, et la plateforme est construite autour de Spark.
+2. **Optimisation**: Databricks optimise l'exécution de Spark avec des fonctionnalités exclusives et des améliorations de performances, qui ne sont pas disponibles dans la version open source standard de Spark.
+3. **Intégration**: Databricks intègre étroitement Spark dans son écosystème, offrant des outils et des interfaces simplifiés pour l'exploitation de Spark dans des environnements cloud.
+4. **Innovation continue**: Les fondateurs de Databricks continuent d'être des contributeurs majeurs au projet Spark, garantissant que les améliorations développées pour Databricks peuvent bénéficier à l'écosystème Spark plus large.
+
+En résumé, Spark est le moteur de traitement de données, tandis que Databricks est une plateforme qui l'exploite et le rend plus accessible et performant pour les utilisations en entreprise, spécialement dans les environnements cloud.
